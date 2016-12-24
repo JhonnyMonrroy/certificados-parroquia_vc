@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24-12-2016 10:55:34 AM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.breakdark.certificados_parroquia_vc.model.Bautismo.Bautismo" table="BAUTISMO">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="libro" type="java.lang.String">
+            <column name="LIBRO" />
+        </property>
+        <property name="pagina" type="java.lang.Integer">
+            <column name="PAGINA" />
+        </property>
+        <property name="partida" type="java.lang.Integer">
+            <column name="PARTIDA" />
+        </property>
+        <property name="apellido_paterno" type="java.lang.String">
+            <column name="APELLIDO_PATERNO" />
+        </property>
+        <property name="apellido_materno" type="java.lang.String">
+            <column name="APELLIDO_MATERNO" />
+        </property>
+        <property name="nombres" type="java.lang.String">
+            <column name="NOMBRES" />
+        </property>
+        <property name="lugar_bautismo" type="java.lang.String">
+            <column name="LUGAR_BAUTISMO" />
+        </property>
+        <property name="fecha_bautismo" type="java.util.Date">
+            <column name="FECHA_BAUTISMO" />
+        </property>
+        <property name="lugar_nacimiento" type="java.lang.String">
+            <column name="LUGAR_NACIMIENTO" />
+        </property>
+        <property name="fecha_nacimiento" type="java.util.Date">
+            <column name="FECHA_NACIMIENTO" />
+        </property>
+        <property name="padre" type="java.lang.String">
+            <column name="PADRE" />
+        </property>
+        <property name="madre" type="java.lang.String">
+            <column name="MADRE" />
+        </property>
+        <property name="padrino" type="java.lang.String">
+            <column name="PADRINO" />
+        </property>
+        <property name="madrina" type="java.lang.String">
+            <column name="MADRINA" />
+        </property>
+        <property name="oficialia" type="java.lang.String">
+            <column name="OFICIALIA" />
+        </property>
+        <property name="oficialia_libro" type="java.lang.String">
+            <column name="OFICIALIA_LIBRO" />
+        </property>
+        <property name="oficialia_partida" type="java.lang.Integer">
+            <column name="OFICIALIA_PARTIDA" />
+        </property>
+        <property name="parroco" type="java.lang.String">
+            <column name="PARROCO" />
+        </property>
+        <property name="notas" type="java.lang.String">
+            <column name="NOTAS" />
+        </property>
+        <property name="ms_access_id" type="java.lang.Integer">
+            <column name="MS_ACCESS_ID" />
+        </property>
+    </class>
+</hibernate-mapping>
