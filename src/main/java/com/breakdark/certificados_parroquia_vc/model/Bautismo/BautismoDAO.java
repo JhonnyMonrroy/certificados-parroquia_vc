@@ -4,6 +4,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 
 class BautismoDAO {
 
@@ -29,12 +30,22 @@ class BautismoDAO {
 	 * 
 	 * @param bautismo
 	 *            Objeto bautismo a registrar
+	 * @return El id del objeto insertado en la base de datos, <code>null</code>
+	 *         en el caso de que exista algun error.
 	 */
-	public void insert(Bautismo bautismo) {
-		Session session = getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.save(bautismo);
-		session.getTransaction().commit();
+	public Integer insert(Bautismo bautismo) {
+		try {
+			int id;
+			Session session = getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+			id = (Integer) session.save(bautismo);
+			// Bautismo bautismo_result = (Bautismo) session.save(bautismo);
+			session.getTransaction().commit();
+			return id;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/**
@@ -51,6 +62,22 @@ class BautismoDAO {
 		List<Bautismo> bautismos = (List<Bautismo>) criteria.list();
 		session.getTransaction().commit();
 		return bautismos;
+	}
+
+	/**
+	 * Obtiene un bautismo a partir de su id
+	 * 
+	 * @param id_bautismo
+	 * @return Un objeto <code>Bautismo</code>, <code>null</code> si es que no
+	 *         existe
+	 */
+	public Bautismo findById(Integer id_bautismo) {
+		Session session = getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Criteria criteria = session.createCriteria(Bautismo.class).add(Restrictions.idEq(id_bautismo));
+		Bautismo bautismo = (Bautismo) criteria.uniqueResult();
+		session.getTransaction().commit();
+		return bautismo;
 	}
 
 	// /**
