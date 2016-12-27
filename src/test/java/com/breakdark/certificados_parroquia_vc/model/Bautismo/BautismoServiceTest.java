@@ -46,7 +46,7 @@ public class BautismoServiceTest extends TestCase {
 		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring-config_test.xml");
 		bautismoService = (BautismoService) context.getBean("bautismoService");
-		System.out.println(bautismoService);
+		//System.out.println(bautismoService);
 
 		this.bautismo = new Bautismo();
 		this.bautismo.setLibro("Libro Test");

@@ -41,8 +41,7 @@
 		<property name="bautismoDAO" ref="bautismoDAO" />
 	</bean>
 
-	<bean id="dbUtil" class="com.breakdark.certificados_parroquia_vc.model.DbUtil"
-		init-method="initialize">
+	<bean id="dbUtil" class="com.breakdark.certificados_parroquia_vc.model.DbUtil" init-method="initialize">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
