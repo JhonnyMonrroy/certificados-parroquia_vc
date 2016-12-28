@@ -523,4 +523,12 @@ public class Bautismo {
 		return true;
 	}
 
+	/**
+	 * @return Un String con el nombre completo del que fue bautizado
+	 */
+	public String getNombreCompleto() {
+		return ((this.apellido_paterno != null) ? this.apellido_paterno + " " : "")
+				+ ((this.apellido_materno != null) ? this.apellido_materno + " " : "") + this.nombres;
+	}
+
 }

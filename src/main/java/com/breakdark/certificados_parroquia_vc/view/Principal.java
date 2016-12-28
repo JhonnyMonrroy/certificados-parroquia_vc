@@ -5,6 +5,7 @@ import com.breakdark.certificados_parroquia_vc.model.Bautismo.*;
 import javax.swing.table.DefaultTableModel;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import javax.swing.UIManager;
 
 /**
  * Ventana principal para la aplicacion
@@ -37,102 +38,94 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        jTabbedPanelPrincipal = new javax.swing.JTabbedPane();
+        jPanelBautismo = new javax.swing.JPanel();
+        jScrollPaneBautismo = new javax.swing.JScrollPane();
+        jTableBautismo = new javax.swing.JTable();
+        jPanelPrimeraComunion = new javax.swing.JPanel();
+        jPanelConfirmacion = new javax.swing.JPanel();
+        jPanelMatrimonio = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Certificados Parroquia Villa Copacabana");
-
-        jTable1.setModel(new DefaultTableModel(
-        	new Object[][] {
-        	},
-        	new String[] {
-        		"id", "nombre completo", "fecha de bautismo", "fecha de nacimiento"
-        	}
-        ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPaneBautismo.setViewportView(jTableBautismo);
+        if (jTableBautismo.getColumnModel().getColumnCount() > 0) {
+            jTableBautismo.getColumnModel().getColumn(0).setResizable(false);
+            jTableBautismo.getColumnModel().getColumn(1).setResizable(false);
+            jTableBautismo.getColumnModel().getColumn(2).setResizable(false);
+            jTableBautismo.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout gl_jPanelBautismo = new javax.swing.GroupLayout(jPanelBautismo);
+        jPanelBautismo.setLayout(gl_jPanelBautismo);
+        gl_jPanelBautismo.setHorizontalGroup(
+            gl_jPanelBautismo.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(gl_jPanelBautismo.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPaneBautismo)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        gl_jPanelBautismo.setVerticalGroup(
+            gl_jPanelBautismo.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gl_jPanelBautismo.createSequentialGroup()
+                .addComponent(jScrollPaneBautismo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Bautismo", jPanel1);
+        jTabbedPanelPrincipal.addTab("Bautismo", jPanelBautismo);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout gl_jPanelPrimeraComunion = new javax.swing.GroupLayout(jPanelPrimeraComunion);
+        jPanelPrimeraComunion.setLayout(gl_jPanelPrimeraComunion);
+        gl_jPanelPrimeraComunion.setHorizontalGroup(
+            gl_jPanelPrimeraComunion.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 655, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        gl_jPanelPrimeraComunion.setVerticalGroup(
+            gl_jPanelPrimeraComunion.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 491, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Primera Comunión", jPanel2);
+        jTabbedPanelPrincipal.addTab("Primera Comunión", jPanelPrimeraComunion);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout gl_jPanelConfirmacion = new javax.swing.GroupLayout(jPanelConfirmacion);
+        jPanelConfirmacion.setLayout(gl_jPanelConfirmacion);
+        gl_jPanelConfirmacion.setHorizontalGroup(
+            gl_jPanelConfirmacion.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 655, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        gl_jPanelConfirmacion.setVerticalGroup(
+            gl_jPanelConfirmacion.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 491, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Confirmación", jPanel3);
+        jTabbedPanelPrincipal.addTab("Confirmación", jPanelConfirmacion);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout gl_jPanelMatrimonio = new javax.swing.GroupLayout(jPanelMatrimonio);
+        jPanelMatrimonio.setLayout(gl_jPanelMatrimonio);
+        gl_jPanelMatrimonio.setHorizontalGroup(
+            gl_jPanelMatrimonio.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 655, Short.MAX_VALUE)
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        gl_jPanelMatrimonio.setVerticalGroup(
+            gl_jPanelMatrimonio.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 491, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Matrimonio", jPanel4);
+        jTabbedPanelPrincipal.addTab("Matrimonio", jPanelMatrimonio);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPanelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPanelPrincipal)
                 .addContainerGap())
         );
 
@@ -175,13 +168,13 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JPanel jPanelBautismo;
+    private javax.swing.JPanel jPanelPrimeraComunion;
+    private javax.swing.JPanel jPanelConfirmacion;
+    private javax.swing.JPanel jPanelMatrimonio;
+    private javax.swing.JScrollPane jScrollPaneBautismo;
+    private javax.swing.JTabbedPane jTabbedPanelPrincipal;
+    private javax.swing.JTable jTableBautismo;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -191,7 +184,7 @@ public class Principal extends javax.swing.JFrame {
         bautismos = bautismoService.obtenerTodosLosBautismos();
         String[] columnas = {"id", "nombre completo", "fecha de bautismo", "fecha de nacimiento"};
         DefaultTableModel tableModelBautismo = new DefaultTableModel(columnas, 0);
-        jTable1.setModel(tableModelBautismo);
+        jTableBautismo.setModel(tableModelBautismo);
         // cargamos la tabla
         for (Bautismo bautismo : bautismos) {
             Object[] dataBautismo = {bautismo.getId(), bautismo.getNombres(), bautismo.getFecha_bautismo(), bautismo.getFecha_nacimiento()};
