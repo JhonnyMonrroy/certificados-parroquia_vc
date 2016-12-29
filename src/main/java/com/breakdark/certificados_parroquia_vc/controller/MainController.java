@@ -1,11 +1,8 @@
 package com.breakdark.certificados_parroquia_vc.controller;
 
 import java.awt.EventQueue;
-import java.util.List;
-
 import org.springframework.context.ApplicationContext;
 
-import com.breakdark.certificados_parroquia_vc.model.Bautismo.Bautismo;
 import com.breakdark.certificados_parroquia_vc.view.FramePrincipal;
 
 /**

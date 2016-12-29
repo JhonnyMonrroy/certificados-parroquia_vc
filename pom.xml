@@ -139,6 +139,22 @@
 			<version>0.1.2</version>
 		</dependency>
 
+		<!-- Para manejar fechas en el formulario -->
+		<!-- https://mvnrepository.com/artifact/org.jdatepicker/jdatepicker -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jdatepicker</groupId> -->
+<!-- 			<artifactId>jdatepicker</artifactId> -->
+<!-- 			<version>1.3.4</version> -->
+<!-- 		</dependency> -->
+
+		<!-- https://mvnrepository.com/artifact/com.toedter/jcalendar -->
+		<dependency>
+			<groupId>com.toedter</groupId>
+			<artifactId>jcalendar</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+
 	</dependencies>
 	<description>Software diseñado para la administración e impreción de certificados de bautismo, primera comunión, confirmación y matrimonio.</description>
 </project>
