@@ -10,7 +10,7 @@ import com.breakdark.certificados_parroquia_vc.view.FramePrincipal;
  * @version 1.0
  */
 public class MainController {
-	private FramePrincipal frameMain = new FramePrincipal();
+	private FramePrincipal frameMain;
 	private BautismoController bautismoController;
 
 	/**
@@ -18,6 +18,7 @@ public class MainController {
 	 *            El contexto spring
 	 */
 	public MainController(ApplicationContext context) {
+		// frameMain = new FramePrincipal();
 		this.bautismoController = new BautismoController(context);
 	}
 
@@ -28,7 +29,7 @@ public class MainController {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frameMain = new FramePrincipal();
+					frameMain = new FramePrincipal(bautismoController);
 					frameMain.setVisible(true);
 					frameMain.setBautismos(bautismoController.getBautismoService().obtenerTodosLosBautismos());
 				} catch (Exception e) {
