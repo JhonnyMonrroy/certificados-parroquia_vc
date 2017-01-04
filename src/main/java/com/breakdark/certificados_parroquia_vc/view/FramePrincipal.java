@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.breakdark.certificados_parroquia_vc.controller.BautismoController;
 import com.breakdark.certificados_parroquia_vc.model.Bautismo.Bautismo;
+import com.breakdark.certificados_parroquia_vc.view.Bautismo.BautismoEditar;
 
 import javax.swing.JScrollPane;
 import java.util.List;
@@ -27,16 +28,13 @@ import javax.swing.JOptionPane;
 
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-import javax.swing.JSpinner;
-import java.beans.VetoableChangeListener;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -44,9 +42,9 @@ import java.awt.event.KeyEvent;
  * @author BreakDark
  *
  */
-@SuppressWarnings("serial")
 public class FramePrincipal extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable tableBautismo;
 
@@ -59,14 +57,11 @@ public class FramePrincipal extends JFrame {
 	@SuppressWarnings("rawtypes")
 	private JComboBox comboBoxFechaBautismo;
 
-	private BautismoController bautismoController;
-
 	/**
 	 * Creando el marco.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public FramePrincipal(final BautismoController bautismoController) {
-		this.bautismoController = bautismoController;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 471);
 		contentPane = new JPanel();
@@ -83,7 +78,30 @@ public class FramePrincipal extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 
 		JButton btnNuevoBautismo = new JButton("Nuevo Bautismo");
-		btnNuevoBautismo.setEnabled(false);
+		btnNuevoBautismo.addActionListener(new ActionListener() {
+			/**
+			 * Al hacer click al boton Nuevo bautismo
+			 * 
+			 * @param e
+			 *            El manejador del evento
+			 */
+			public void actionPerformed(ActionEvent e) {
+				try {
+					BautismoEditar dialog = new BautismoEditar();
+					dialog.setTitle("Nuevo Bautismo");
+					// Bautismo bautismo = new Bautismo();
+					// bautismo.setNombres("JUAN JOSE");
+					// bautismo.setApellido_paterno("PEREZ");
+					// bautismo.setApellido_materno("QUIROGA");
+					// dialog.setBautismo(bautismo);
+					dialog.setBautismo(new Bautismo());
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 		btnNuevoBautismo.setToolTipText("Adiciona un nuevo Bautismo");
 
 		textFieldPartidaBautismo = new JTextField();
@@ -262,6 +280,10 @@ public class FramePrincipal extends JFrame {
 		scrollPane.setViewportView(tableBautismo);
 		tableBautismo.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "Id", "Nombre Completo", "Fecha de Bautismo", "Fecha de Nacimiento" }) {
+			/**
+					 * 
+					 */
+			private static final long serialVersionUID = 1L;
 			Class[] columnTypes = new Class[] { Integer.class, String.class, Object.class, Object.class };
 
 			public Class getColumnClass(int columnIndex) {
