@@ -3,6 +3,7 @@
  */
 package com.breakdark.certificados_parroquia_vc.model.Bautismo;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +41,30 @@ public class BautismoService {
 		return this.getBautismoDAO().selectAll();
 	}
 
+	/**
+	 * Busca bautismos segun los parametros enviados
+	 * 
+	 * @param libro
+	 *            Número del libro de registro del bautismo
+	 * @param partida
+	 *            Número de partida del bautismo
+	 * @param indicio_nombre
+	 *            Indicio o parte del Nombre del bautizado
+	 * @param tipo_fecha
+	 *            tipo de fecha a buscar (<code>"bautismo"</code> o
+	 *            <code>"nacimiento"</code>)
+	 * @param fecha_desde
+	 *            Fecha de inicio de la busqueda
+	 * @param fecha_hasta
+	 *            Fecha de finalización de la busqueda
+	 * @return Una lista de objetos <code>Bautismo</code>, <code>null</code> si
+	 *         existe algun error
+	 */
+	public List<Bautismo> buscarBautismos(String libro, Integer partida, String indicio_nombre, String tipo_fecha,
+			Date fecha_desde, Date fecha_hasta) {
+		return this.getBautismoDAO().findAll(libro, partida, indicio_nombre, tipo_fecha, fecha_desde, fecha_hasta);
+	}
+
 	// METODOS GET Y SET
 	/**
 	 * @return El bautismoDAO
@@ -55,4 +80,5 @@ public class BautismoService {
 	public void setBautismoDAO(BautismoDAO bautismoDAO) {
 		this.bautismoDAO = bautismoDAO;
 	}
+
 }

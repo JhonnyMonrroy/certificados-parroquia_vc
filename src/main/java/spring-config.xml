@@ -6,10 +6,10 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.sqlite.JDBC" />
+		<!-- <property name="url" -->
+		<!-- value="jdbc:sqlite:data//parroquia.sqlite" /> -->
 		<property name="url"
 			value="jdbc:sqlite:data//parroquia_development.sqlite" />
-		<!-- <property name="url" value="jdbc:sqlite:data//parroquia_development.sqlite" 
-			/> -->
 		<property name="username" value="" />
 		<property name="password" value="" />
 	</bean>
@@ -28,7 +28,7 @@
 				<prop key="hibernate.dialect">com.enigmabridge.hibernate.dialect.SQLiteDialect
 				</prop>
 				<prop key="hibernate.current_session_context_class">thread</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 			</props>
 		</property>
 	</bean>
@@ -46,6 +46,12 @@
 	<bean id="dbUtil" class="com.breakdark.certificados_parroquia_vc.model.DbUtil"
 		init-method="initialize">
 		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- Asociamos las vistas -->
+	<bean id="framePrincipal"
+		class="com.breakdark.certificados_parroquia_vc.view.FramePrincipal">
+		<property name="bautismoService" ref="bautismoService" />
 	</bean>
 
 </beans>

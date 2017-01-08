@@ -3,10 +3,12 @@
  */
 package com.breakdark.certificados_parroquia_vc;
 
+import java.awt.EventQueue;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.breakdark.certificados_parroquia_vc.controller.MainController;
+import com.breakdark.certificados_parroquia_vc.view.FramePrincipal;
 
 /**
  * @author BreakDark
@@ -16,14 +18,19 @@ public class Main {
 	/**
 	 * Lanzamos la aplicacion
 	 */
-	@SuppressWarnings("resource")
 	public static void main(String[] args) {
-		ApplicationContext context = new ClassPathXmlApplicationContext("spring-config_development.xml");
-		if (args.length > 0 && args[0].equals("enviroment=production")) {
-			context = new ClassPathXmlApplicationContext("spring-config_production.xml");
-		}
-		MainController mainController = new MainController(context);
-		mainController.iniciar();
+		EventQueue.invokeLater(new Runnable() {
+			@SuppressWarnings("resource")
+			public void run() {
+				try {
+					ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+					FramePrincipal framePrincipal = (FramePrincipal) context.getBean("framePrincipal");
+					framePrincipal.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

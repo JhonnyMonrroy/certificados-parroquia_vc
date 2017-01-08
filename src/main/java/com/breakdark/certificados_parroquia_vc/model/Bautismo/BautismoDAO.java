@@ -1,9 +1,11 @@
 package com.breakdark.certificados_parroquia_vc.model.Bautismo;
 
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 class BautismoDAO {
@@ -36,6 +38,12 @@ class BautismoDAO {
 	public Integer insert(Bautismo bautismo) {
 		try {
 			int id;
+			// parseamos a mayusculas
+			bautismo.setLibro(bautismo.getLibro().toUpperCase());
+			bautismo.setApellido_paterno(bautismo.getApellido_paterno().toUpperCase());
+			bautismo.setApellido_materno(bautismo.getApellido_materno().toUpperCase());
+			bautismo.setNombres(bautismo.getNombres().toUpperCase());
+
 			Session session = getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			id = (Integer) session.save(bautismo);
@@ -78,6 +86,56 @@ class BautismoDAO {
 		Bautismo bautismo = (Bautismo) criteria.uniqueResult();
 		session.getTransaction().commit();
 		return bautismo;
+	}
+
+	/**
+	 * Busca bautismos segun los parametros enviados
+	 * 
+	 * @param libro
+	 *            Número del libro de registro del bautismo
+	 * @param partida
+	 *            Número de partida del bautismo
+	 * @param indicio_nombre
+	 *            Indicio o parte del Nombre del bautizado
+	 * @param tipo_fecha
+	 *            tipo de fecha a buscar (<code>"bautismo"</code> o
+	 *            <code>"nacimiento"</code>)
+	 * @param fecha_desde
+	 *            Fecha de inicio de la busqueda
+	 * @param fecha_hasta
+	 *            Fecha de finalización de la busqueda
+	 * @return Una lista de objetos <code>Bautismo</code>, <code>null</code> si
+	 *         existe algun error
+	 */
+	public List<Bautismo> findAll(String libro, Integer partida, String indicio_nombre, String tipo_fecha,
+			Date fecha_desde, Date fecha_hasta) {
+		Session session = getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		Criteria criteria = session.createCriteria(Bautismo.class);
+		if (libro != null) {
+			criteria.add(Restrictions.eq("libro", libro.toUpperCase()));
+		}
+		if (partida != null) {
+			criteria.add(Restrictions.eq("partida", partida));
+		}
+		if (indicio_nombre != null) {
+			// en sqlite la concatenacion es con ||
+			// criteria.createAlias("(apellido_paterno||' '||apellido_materno||'
+			// '||nombres", "nombre_completo)");
+			// criteria.add(Restrictions.like("nombre_completo", "%" +
+			// indicio_nombre.toUpperCase() + "%"));
+			criteria.add(Restrictions.sqlRestriction("(apellido_paterno||' '||apellido_materno||' '||nombres) like '%"
+					+ indicio_nombre.toUpperCase() + "%'"));
+		}
+		if (fecha_desde != null && fecha_hasta != null) {
+			criteria.add(Restrictions.between(tipo_fecha.equals("bautismo") ? "fecha_bautismo" : "fecha_nacimiento",
+					fecha_desde, fecha_hasta));
+		}
+		criteria.addOrder(Order.asc("apellido_paterno"));
+		@SuppressWarnings("unchecked")
+		List<Bautismo> bautismos = (List<Bautismo>) criteria.list();
+		session.getTransaction().commit();
+		return bautismos;
 	}
 
 	// /**
