@@ -113,10 +113,13 @@ class BautismoDAO {
 		session.beginTransaction();
 		Criteria criteria = session.createCriteria(Bautismo.class);
 		if (libro != null) {
-			criteria.add(Restrictions.eq("libro", libro.toUpperCase()));
+			// criteria.add(Restrictions.eq("libro", libro.toUpperCase()));
+			criteria.add(Restrictions.like("libro", "%" + libro + "%"));
 		}
 		if (partida != null) {
-			criteria.add(Restrictions.eq("partida", partida));
+			// criteria.add(Restrictions.eq("partida", partida));
+			//criteria.add(Restrictions.like("partida", partida + "%"));
+			criteria.add(Restrictions.sqlRestriction("(partida) like '" + partida + "%'"));
 		}
 		if (indicio_nombre != null) {
 			// en sqlite la concatenacion es con ||

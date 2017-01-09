@@ -16,6 +16,8 @@ import com.breakdark.certificados_parroquia_vc.model.Bautismo.BautismoService;
 import com.breakdark.certificados_parroquia_vc.view.Bautismo.BautismoEditar;
 
 import javax.swing.JScrollPane;
+
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.GroupLayout;
@@ -51,7 +53,6 @@ public class FramePrincipal extends JFrame {
 	// para acceder a los datos
 	private BautismoService bautismoService;
 
-	private List<Bautismo> bautismos;
 	private JTextField txtPartidaBautismo;
 	private JTextField txtNombreBautismo;
 	private JDateChooser dateFechaDesdeBautismo;
@@ -67,7 +68,7 @@ public class FramePrincipal extends JFrame {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public FramePrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 750, 471);
+		setBounds(100, 100, 766, 469);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -142,22 +143,7 @@ public class FramePrincipal extends JFrame {
 		btnBuscarBautismo.setEnabled(false);
 		btnBuscarBautismo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// System.out.println("CLICK CLICK");
-				System.out.println("Libro: " + txtLibroBautismo.getText());
-				System.out.println(
-						"Partida: " + (txtPartidaBautismo.getText().equals("") ? null : txtPartidaBautismo.getText()));
-				System.out.println(
-						"Nombre: " + (txtNombreBautismo.getText().equals("") ? null : txtNombreBautismo.getText()));
-				System.out.println("Tipo fecha: " + comboFechaBautismo.getSelectedIndex());
-				System.out.println("Fecha desde: " + dateFechaDesdeBautismo.getDate());
-				System.out.println("Fecha hasta: " + dateFechaHastaBautismo.getDate());
-				setBautismos(bautismoService.buscarBautismos(
-						txtLibroBautismo.getText().equals("") ? txtLibroBautismo.getText() : null,
-						(txtPartidaBautismo.getText().equals("") ? null
-								: Integer.parseInt(txtPartidaBautismo.getText())),
-						(txtNombreBautismo.getText().equals("") ? null : txtNombreBautismo.getText()),
-						comboFechaBautismo.getSelectedItem().toString(), dateFechaDesdeBautismo.getDate(),
-						dateFechaHastaBautismo.getDate()));
+				buscarBautismos();
 			}
 		});
 		btnBuscarBautismo.setToolTipText("Buscar Bautismos");
@@ -180,7 +166,7 @@ public class FramePrincipal extends JFrame {
 				validarBotonBuscarBautismo();
 			}
 		});
-		lblHasta.setLabelFor(dateFechaHastaBautismo);
+		// lblHasta.setLabelFor(dateFechaHastaBautismo);
 
 		comboFechaBautismo = new JComboBox();
 		comboFechaBautismo.setBackground(UIManager.getColor("Button.background"));
@@ -190,131 +176,153 @@ public class FramePrincipal extends JFrame {
 		comboFechaBautismo.setSelectedIndex(0);
 
 		txtLibroBautismo = new JTextField();
+		txtLibroBautismo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				validarBotonBuscarBautismo();
+			}
+		});
 		txtLibroBautismo.setColumns(10);
 
 		JLabel lblLibro = new JLabel("Libro:");
+
+		JButton btnLimpiarFormularioBautismo = new JButton("Limpiar formulario");
+		btnLimpiarFormularioBautismo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// limpia los datos de la busqueda del bautismo
+				txtLibroBautismo.setText("");
+				txtPartidaBautismo.setText("");
+				txtNombreBautismo.setText("");
+				comboFechaBautismo.setSelectedIndex(0);
+				dateFechaDesdeBautismo.setDate(null);
+				dateFechaHastaBautismo.setDate(null);
+				// desactivamos el boton buscar
+				btnBuscarBautismo.setEnabled(false);
+			}
+		});
 		GroupLayout gl_panelBautismo = new GroupLayout(panelBautismo);
 		gl_panelBautismo
-				.setHorizontalGroup(
-						gl_panelBautismo.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panelBautismo.createSequentialGroup().addContainerGap()
-										.addGroup(gl_panelBautismo.createParallelGroup(Alignment.LEADING)
+				.setHorizontalGroup(gl_panelBautismo.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
+						gl_panelBautismo
+								.createSequentialGroup().addGap(
+										12)
+								.addGroup(gl_panelBautismo.createParallelGroup(Alignment.TRAILING)
+										.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 704,
+												Short.MAX_VALUE)
+										.addGroup(gl_panelBautismo.createSequentialGroup().addGroup(gl_panelBautismo
+												.createParallelGroup(Alignment.TRAILING)
 												.addGroup(gl_panelBautismo.createSequentialGroup()
-														.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 695,
-																Short.MAX_VALUE)
-														.addContainerGap())
+														.addComponent(lblNombre)
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addComponent(txtNombreBautismo, GroupLayout.PREFERRED_SIZE,
+																166, GroupLayout.PREFERRED_SIZE)
+														.addGap(18))
 												.addGroup(gl_panelBautismo.createSequentialGroup()
 														.addGroup(gl_panelBautismo
 																.createParallelGroup(Alignment.TRAILING)
-																.addGroup(gl_panelBautismo.createSequentialGroup()
-																		.addComponent(lblNombre)
-																		.addPreferredGap(ComponentPlacement.UNRELATED)
-																		.addComponent(txtNombreBautismo,
-																				GroupLayout.PREFERRED_SIZE, 166,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addGap(18))
-																.addGroup(gl_panelBautismo.createSequentialGroup()
-																		.addGroup(gl_panelBautismo
-																				.createParallelGroup(Alignment.TRAILING)
-																				.addComponent(lblLibro)
-																				.addComponent(lblPartida))
-																		.addPreferredGap(ComponentPlacement.UNRELATED)
-																		.addGroup(gl_panelBautismo
-																				.createParallelGroup(Alignment.LEADING,
-																						false)
-																				.addComponent(txtLibroBautismo, 0, 0,
-																						Short.MAX_VALUE)
-																				.addComponent(txtPartidaBautismo,
-																						GroupLayout.DEFAULT_SIZE, 86,
-																						Short.MAX_VALUE))
-																		.addGap(98)))
-														.addGap(3)
+																.addComponent(lblLibro).addComponent(lblPartida))
+														.addPreferredGap(ComponentPlacement.UNRELATED)
 														.addGroup(gl_panelBautismo
-																.createParallelGroup(Alignment.TRAILING, false)
-																.addGroup(gl_panelBautismo.createSequentialGroup()
-																		.addGroup(gl_panelBautismo
-																				.createParallelGroup(Alignment.TRAILING)
-																				.addComponent(lblDesde)
-																				.addComponent(lblHasta))
-																		.addGap(18)
-																		.addGroup(gl_panelBautismo
-																				.createParallelGroup(Alignment.LEADING,
-																						false)
-																				.addComponent(dateFechaHastaBautismo,
-																						GroupLayout.DEFAULT_SIZE,
-																						GroupLayout.DEFAULT_SIZE,
-																						Short.MAX_VALUE)
-																				.addComponent(dateFechaDesdeBautismo,
-																						GroupLayout.DEFAULT_SIZE, 111,
-																						Short.MAX_VALUE)))
-																.addComponent(comboFechaBautismo, 0,
-																		GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-														.addGap(18)
-														.addComponent(btnBuscarBautismo, GroupLayout.DEFAULT_SIZE, 116,
-																Short.MAX_VALUE)
-														.addPreferredGap(ComponentPlacement.RELATED)
-														.addComponent(btnNuevoBautismo).addGap(20)))));
-		gl_panelBautismo
-				.setVerticalGroup(gl_panelBautismo.createParallelGroup(Alignment.LEADING).addGroup(gl_panelBautismo
-						.createSequentialGroup().addContainerGap().addGroup(gl_panelBautismo
-								.createParallelGroup(
-										Alignment.TRAILING)
-								.addGroup(gl_panelBautismo.createSequentialGroup()
-										.addGroup(gl_panelBautismo.createParallelGroup(Alignment.BASELINE)
-												.addComponent(comboFechaBautismo, GroupLayout.PREFERRED_SIZE, 21,
-														GroupLayout.PREFERRED_SIZE)
-												.addComponent(txtLibroBautismo, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblLibro))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_panelBautismo.createParallelGroup(Alignment.TRAILING)
-												.addGroup(gl_panelBautismo.createParallelGroup(Alignment.BASELINE)
-														.addComponent(lblPartida).addComponent(txtPartidaBautismo,
-																GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE))
+																.createParallelGroup(Alignment.LEADING, false)
+																.addComponent(txtLibroBautismo, 0, 0, Short.MAX_VALUE)
+																.addComponent(txtPartidaBautismo,
+																		GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
+														.addGap(98)))
+												.addGap(3)
+												.addGroup(gl_panelBautismo
+														.createParallelGroup(Alignment.TRAILING, false)
+														.addGroup(gl_panelBautismo.createSequentialGroup()
+																.addGroup(gl_panelBautismo
+																		.createParallelGroup(Alignment.TRAILING)
+																		.addComponent(lblHasta).addComponent(lblDesde))
+																.addGap(18)
+																.addGroup(gl_panelBautismo
+																		.createParallelGroup(Alignment.LEADING)
+																		.addComponent(dateFechaHastaBautismo,
+																				GroupLayout.DEFAULT_SIZE,
+																				GroupLayout.DEFAULT_SIZE,
+																				Short.MAX_VALUE)
+																		.addComponent(dateFechaDesdeBautismo,
+																				GroupLayout.PREFERRED_SIZE, 111,
+																				GroupLayout.PREFERRED_SIZE)))
+														.addComponent(comboFechaBautismo, 0, GroupLayout.DEFAULT_SIZE,
+																Short.MAX_VALUE))
+												.addPreferredGap(ComponentPlacement.UNRELATED)
 												.addGroup(gl_panelBautismo.createParallelGroup(Alignment.LEADING)
-														.addGroup(gl_panelBautismo.createSequentialGroup().addGap(10)
-																.addComponent(lblDesde))
-														.addComponent(dateFechaDesdeBautismo, Alignment.TRAILING,
-																GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE)))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_panelBautismo.createParallelGroup(Alignment.TRAILING)
+														.addComponent(btnLimpiarFormularioBautismo)
+														.addComponent(btnBuscarBautismo, GroupLayout.DEFAULT_SIZE, 139,
+																Short.MAX_VALUE))
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(btnNuevoBautismo)))
+								.addGap(20)));
+		gl_panelBautismo.setVerticalGroup(
+				gl_panelBautismo.createParallelGroup(Alignment.LEADING).addGroup(gl_panelBautismo
+						.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panelBautismo.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panelBautismo
+										.createSequentialGroup()
+										.addComponent(btnBuscarBautismo, GroupLayout.PREFERRED_SIZE, 53,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED))
+								.addGroup(gl_panelBautismo.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_panelBautismo.createSequentialGroup()
 												.addGroup(gl_panelBautismo.createParallelGroup(Alignment.BASELINE)
-														.addComponent(txtNombreBautismo, GroupLayout.PREFERRED_SIZE,
+														.addComponent(comboFechaBautismo, GroupLayout.PREFERRED_SIZE,
+																21, GroupLayout.PREFERRED_SIZE)
+														.addComponent(txtLibroBautismo, GroupLayout.PREFERRED_SIZE,
 																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(lblNombre).addComponent(lblHasta))
-												.addComponent(dateFechaHastaBautismo, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGap(18))
-								.addGroup(gl_panelBautismo.createSequentialGroup()
-										.addGroup(gl_panelBautismo.createParallelGroup(Alignment.BASELINE)
-												.addComponent(btnBuscarBautismo, GroupLayout.DEFAULT_SIZE, 76,
-														Short.MAX_VALUE)
-												.addComponent(btnNuevoBautismo, GroupLayout.DEFAULT_SIZE, 78,
+														.addComponent(lblLibro))
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addGroup(gl_panelBautismo.createParallelGroup(Alignment.TRAILING)
+														.addGroup(
+																gl_panelBautismo.createParallelGroup(Alignment.BASELINE)
+																		.addComponent(lblPartida).addComponent(
+																				txtPartidaBautismo,
+																				GroupLayout.PREFERRED_SIZE,
+																				GroupLayout.DEFAULT_SIZE,
+																				GroupLayout.PREFERRED_SIZE))
+														.addGroup(gl_panelBautismo
+																.createParallelGroup(Alignment.LEADING)
+																.addGroup(gl_panelBautismo.createSequentialGroup()
+																		.addGap(10).addComponent(lblDesde))
+																.addComponent(dateFechaDesdeBautismo,
+																		Alignment.TRAILING, GroupLayout.PREFERRED_SIZE,
+																		GroupLayout.DEFAULT_SIZE,
+																		GroupLayout.PREFERRED_SIZE)))
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addGroup(gl_panelBautismo.createParallelGroup(Alignment.LEADING)
+														.addComponent(dateFechaHastaBautismo,
+																GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE)
+														.addGroup(gl_panelBautismo
+																.createParallelGroup(Alignment.BASELINE)
+																.addComponent(txtNombreBautismo,
+																		GroupLayout.PREFERRED_SIZE,
+																		GroupLayout.DEFAULT_SIZE,
+																		GroupLayout.PREFERRED_SIZE)
+																.addComponent(lblNombre).addComponent(lblHasta)))
+												.addGap(12))
+										.addGroup(gl_panelBautismo.createSequentialGroup().addGroup(gl_panelBautismo
+												.createParallelGroup(Alignment.TRAILING)
+												.addComponent(btnLimpiarFormularioBautismo, GroupLayout.PREFERRED_SIZE,
+														20, GroupLayout.PREFERRED_SIZE)
+												.addComponent(btnNuevoBautismo, GroupLayout.DEFAULT_SIZE, 79,
 														Short.MAX_VALUE))
-										.addPreferredGap(ComponentPlacement.UNRELATED)))
+												.addPreferredGap(ComponentPlacement.UNRELATED))))
+						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE).addContainerGap()));
 
 		tableBautismo = new JTable();
 		scrollPane.setViewportView(tableBautismo);
 		tableBautismo.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "Id", "Nombre Completo", "Fecha de Bautismo", "Fecha de Nacimiento" }) {
-			/**
-					 * 
-					 */
-			private static final long serialVersionUID = 1L;
-			Class[] columnTypes = new Class[] { Integer.class, String.class, Object.class, Object.class };
-
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		tableBautismo.getColumnModel().getColumn(0).setPreferredWidth(25);
+				new String[] { "Id", "Libro", "Partida", "Nombre Completo", "Fecha Bautismo", "Fecha Nacimiento" }));
+		tableBautismo.getColumnModel().getColumn(0).setPreferredWidth(23);
 		tableBautismo.getColumnModel().getColumn(0).setMinWidth(13);
-		tableBautismo.getColumnModel().getColumn(1).setPreferredWidth(356);
-		tableBautismo.getColumnModel().getColumn(2).setPreferredWidth(121);
-		tableBautismo.getColumnModel().getColumn(3).setPreferredWidth(122);
+		tableBautismo.getColumnModel().getColumn(1).setPreferredWidth(51);
+		tableBautismo.getColumnModel().getColumn(2).setPreferredWidth(55);
+		tableBautismo.getColumnModel().getColumn(3).setPreferredWidth(328);
+		tableBautismo.getColumnModel().getColumn(4).setPreferredWidth(111);
+		tableBautismo.getColumnModel().getColumn(5).setPreferredWidth(111);
 		panelBautismo.setLayout(gl_panelBautismo);
 
 		JPanel panelPrimeraComunion = new JPanel();
@@ -337,28 +345,57 @@ public class FramePrincipal extends JFrame {
 	}
 
 	/**
-	 * @param bautismos
-	 *            Los bautismos a asignar Tambien asigna a la tablaBautismo la
-	 *            lista de bautismos
+	 * Metodo que reliza el proceso de buscar el bautismo
 	 */
-	public void setBautismos(List<Bautismo> bautismos) {
-		this.bautismos = bautismos;
-		DefaultTableModel tableModel = (DefaultTableModel) this.tableBautismo.getModel();
-		tableModel.setRowCount(0);// limpiamos la tabla
-		if (bautismos != null && bautismos.size() > 0) {
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd - MM - yyyy");
+	protected void buscarBautismos() {
+		// validamos los campos antes de enviarlos a la busqueda
+		String libro = txtLibroBautismo.getText().equals("") ? null : txtLibroBautismo.getText();
+		Integer partida = txtPartidaBautismo.getText().equals("") ? null
+				: Integer.parseInt(txtPartidaBautismo.getText());
+		String indicio_nombre = txtNombreBautismo.getText().equals("") ? null : txtNombreBautismo.getText();
+		String tipo_fecha = comboFechaBautismo.getSelectedIndex() == 0 ? "bautismo" : "nacimiento";
+		Date fecha_desde = dateFechaDesdeBautismo.getDate();
+		Date fecha_hasta = dateFechaHastaBautismo.getDate();
 
-			// tableModel.getDataVector().removeAllElements();
-			for (Bautismo bautismo : this.bautismos) {
-				Object[] dataBautismo = { bautismo.getId(), bautismo.getNombreCompleto(),
-						dateFormat.format(bautismo.getFecha_bautismo()),
+		List<Bautismo> bautismos = bautismoService.buscarBautismos(libro, partida, indicio_nombre, tipo_fecha,
+				fecha_desde, fecha_hasta);
+
+		DefaultTableModel tableModel = (DefaultTableModel) tableBautismo.getModel();
+		tableModel.setRowCount(0);// limpiamos la tabla
+		// tableModel.getDataVector().removeAllElements();
+		//SimpleDateFormat dateFormat = new SimpleDateFormat("dd - MM - yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+		if (bautismos != null && bautismos.size() > 0) {
+			for (Bautismo bautismo : bautismos) {
+				Object[] dataBautismo = { bautismo.getId(), bautismo.getLibro(), bautismo.getPartida(),
+						bautismo.getNombreCompleto(), dateFormat.format(bautismo.getFecha_bautismo()),
 						dateFormat.format(bautismo.getFecha_nacimiento()) };
 				tableModel.addRow(dataBautismo);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "No se encontraron Bautismos", "Información",
-					JOptionPane.INFORMATION_MESSAGE);
+			String datos_busqueda = "";
+			if (libro != null) {
+				datos_busqueda += "Libro: " + libro + "\n";
+			}
+			if (partida != null) {
+				datos_busqueda += "Partida: " + partida + "\n";
+			}
+			if (indicio_nombre != null) {
+				datos_busqueda += "Indicio de nombre: " + indicio_nombre + "\n";
+			}
+			if (fecha_desde != null && fecha_hasta != null) {
+				datos_busqueda += "Tipo de fecha: " + tipo_fecha + "\n";
+				datos_busqueda += "Fecha fecha: " + dateFormat.format(fecha_desde) + "\n";
+				datos_busqueda += "Fecha hasta: " + dateFormat.format(fecha_hasta) + "\n";
+			}
+			JOptionPane.showMessageDialog(null, "No se encontraron Bautismos para los datos:\n" + datos_busqueda,
+					"Información", JOptionPane.INFORMATION_MESSAGE);
 		}
+
+		// setBautismos(bautismoService.buscarBautismos(libro, partida,
+		// indicio_nombre, tipo_fecha, fecha_desde,
+		// fecha_hasta));
 	}
 
 	/**
@@ -367,8 +404,8 @@ public class FramePrincipal extends JFrame {
 	private void validarBotonBuscarBautismo() {
 		// System.out.println(this.dateChooserFechaDesdeBautismo.getDate());
 		// System.out.println(this.dateChooserFechaHastaBautismo.getDate());
-		this.btnBuscarBautismo.setEnabled(!this.txtPartidaBautismo.getText().equals("")
-				|| !this.txtNombreBautismo.getText().equals("")
+		this.btnBuscarBautismo.setEnabled(!this.txtLibroBautismo.getText().equals("")
+				|| !this.txtPartidaBautismo.getText().equals("") || !this.txtNombreBautismo.getText().equals("")
 				|| (this.dateFechaDesdeBautismo.getDate() != null && this.dateFechaHastaBautismo.getDate() != null));
 	}
 
