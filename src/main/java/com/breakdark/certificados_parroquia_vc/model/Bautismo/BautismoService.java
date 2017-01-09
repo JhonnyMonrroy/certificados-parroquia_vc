@@ -81,4 +81,12 @@ public class BautismoService {
 		this.bautismoDAO = bautismoDAO;
 	}
 
+	/**
+	 * @param id Identificador del bautismo
+	 * @return Un objeto <code>Bautismo</code>, <code>null</code> en el caso de que no exista
+	 */
+	public Bautismo obtenerBautismoDeId(Integer id) {
+		return this.getBautismoDAO().findById(id);
+	}
+
 }

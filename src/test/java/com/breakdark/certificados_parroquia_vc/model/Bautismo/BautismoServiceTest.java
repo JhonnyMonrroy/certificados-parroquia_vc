@@ -271,4 +271,30 @@ public class BautismoServiceTest extends TestCase {
 				bautismoService.buscarBautismos("Libro 1", 123, "perez poma juan jose", "nacimiento",
 						java.sql.Date.valueOf("1980-01-01"), java.sql.Date.valueOf("1980-12-31")).get(0));
 	}
+
+	/**
+	 * Metodo test para
+	 * {@link com.breakdark.certificados_parroquia_vc.model.Bautismo.BautismoService#obtenerBautismoDeId()}.
+	 * Probamos que se puede obtener un bautismo segun su id
+	 */
+	@Test
+	public void testObtenerBautismoDeId() {
+		// datos de prueba
+		bautismo1.setLibro("Libro 1");
+		bautismo1.setPartida(123);
+		bautismo1.setApellido_paterno("PEREZ");
+		bautismo1.setApellido_materno("POMA");
+		bautismo1.setNombres("JUAN JOSE");
+		bautismo1.setFecha_bautismo(java.sql.Date.valueOf("1986-05-23"));
+		bautismo1.setFecha_nacimiento(java.sql.Date.valueOf("1980-09-11"));
+
+		Bautismo bautismo_result = bautismoService.adicionarBautismo(bautismo1);
+
+		Assert.assertNotNull("El resultado devolvio null",
+				bautismoService.obtenerBautismoDeId(bautismo_result.getId()));
+		Assert.assertEquals("El bautismo obtenido es distinto al registrado con el id enviado", bautismo1,
+				bautismo_result);
+
+		Assert.assertNull("Deberia obtenerse null con un id negativo", bautismoService.obtenerBautismoDeId(-1));
+	}
 }

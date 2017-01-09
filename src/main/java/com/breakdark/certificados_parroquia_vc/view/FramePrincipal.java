@@ -39,6 +39,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author BreakDark
@@ -65,7 +67,7 @@ public class FramePrincipal extends JFrame {
 	/**
 	 * Creando el marco.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	public FramePrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 766, 469);
@@ -313,9 +315,31 @@ public class FramePrincipal extends JFrame {
 						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE).addContainerGap()));
 
 		tableBautismo = new JTable();
+		tableBautismo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// System.out.println(e.getClickCount());
+				// al doble click
+				if (e.getClickCount() == 2) {
+					// JOptionPane.showMessageDialog(null,
+					// tableBautismo.getSelectedRow());
+					// System.out.println(tableBautismo.getValueAt(tableBautismo.getSelectedRow(),
+					// 0));
+					Bautismo bautismo = bautismoService.obtenerBautismoDeId(
+							Integer.parseInt(tableBautismo.getValueAt(tableBautismo.getSelectedRow(), 0).toString()));
+					System.out.println(bautismo);
+				}
+			}
+		});
 		scrollPane.setViewportView(tableBautismo);
 		tableBautismo.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "Id", "Libro", "Partida", "Nombre Completo", "Fecha Bautismo", "Fecha Nacimiento" }));
+				new String[] { "Id", "Libro", "Partida", "Nombre Completo", "Fecha Bautismo", "Fecha Nacimiento" }) {
+			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false };
+
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 		tableBautismo.getColumnModel().getColumn(0).setPreferredWidth(23);
 		tableBautismo.getColumnModel().getColumn(0).setMinWidth(13);
 		tableBautismo.getColumnModel().getColumn(1).setPreferredWidth(51);
@@ -363,7 +387,7 @@ public class FramePrincipal extends JFrame {
 		DefaultTableModel tableModel = (DefaultTableModel) tableBautismo.getModel();
 		tableModel.setRowCount(0);// limpiamos la tabla
 		// tableModel.getDataVector().removeAllElements();
-		//SimpleDateFormat dateFormat = new SimpleDateFormat("dd - MM - yyyy");
+		// SimpleDateFormat dateFormat = new SimpleDateFormat("dd - MM - yyyy");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 		if (bautismos != null && bautismos.size() > 0) {
