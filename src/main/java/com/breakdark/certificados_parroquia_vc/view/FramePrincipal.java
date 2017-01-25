@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import com.breakdark.certificados_parroquia_vc.model.Bautismo.Bautismo;
 import com.breakdark.certificados_parroquia_vc.model.Bautismo.BautismoService;
 import com.breakdark.certificados_parroquia_vc.view.Bautismo.BautismoEditar;
+import com.breakdark.certificados_parroquia_vc.view.Bautismo.BautismoMostrar;
 
 import javax.swing.JScrollPane;
 
@@ -327,7 +328,15 @@ public class FramePrincipal extends JFrame {
 					// 0));
 					Bautismo bautismo = bautismoService.obtenerBautismoDeId(
 							Integer.parseInt(tableBautismo.getValueAt(tableBautismo.getSelectedRow(), 0).toString()));
-					System.out.println(bautismo);
+					// System.out.println(bautismo);
+					try {
+						BautismoMostrar dialog = new BautismoMostrar();
+						dialog.setBautismo(bautismo);
+						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						dialog.setVisible(true);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
 				}
 			}
 		});
