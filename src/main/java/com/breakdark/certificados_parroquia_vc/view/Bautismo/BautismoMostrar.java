@@ -255,7 +255,17 @@ public class BautismoMostrar extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btnVistaPreliminar = new JButton("Vista Preliminar");
-				btnVistaPreliminar.setEnabled(false);
+				btnVistaPreliminar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try {
+							BautismoVistaPreliminar dialog = new BautismoVistaPreliminar();
+							dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+							dialog.setVisible(true);
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}
+					}
+				});
 				btnVistaPreliminar.setActionCommand("OK");
 				buttonPane.add(btnVistaPreliminar);
 				getRootPane().setDefaultButton(btnVistaPreliminar);

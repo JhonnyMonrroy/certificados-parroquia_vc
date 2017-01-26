@@ -13,7 +13,18 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.sun.pdfview.PDFFile;
+import com.sun.pdfview.PDFPage;
+import com.sun.pdfview.PagePanel;
+
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 
@@ -24,21 +35,8 @@ import javax.swing.JLabel;
 public class BautismoVistaPreliminar extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private final JPanel contentPanel = new JPanel() {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void paintComponent(Graphics g) {
-			ImageIcon imagenFondo = new ImageIcon(getClass().getResource("certBautismo_fondo.jpg"));
-			g.drawImage(imagenFondo.getImage(), 0, 0, null);
-			setOpaque(false);
-			super.paintComponent(g);
-		}
-	};
-
+	private final JPanel contentPanel = new JPanel();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -54,8 +52,9 @@ public class BautismoVistaPreliminar extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @throws IOException 
 	 */
-	public BautismoVistaPreliminar() {
+	public BautismoVistaPreliminar() throws IOException {
 		setResizable(false);
 		setAlwaysOnTop(true);
 		setBounds(100, 100, 400, 520);
@@ -63,8 +62,22 @@ public class BautismoVistaPreliminar extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
-			JLabel lblFsdfgsdfs = new JLabel("fsdfgsdfs");
-			contentPanel.add(lblFsdfgsdfs);
+			PagePanel panelpdf = new PagePanel();
+			panelpdf.setBounds(21, 11, 349, 471);
+			File file = new File("recursos/test.pdf");
+	        @SuppressWarnings("resource")
+			RandomAccessFile raf = new RandomAccessFile(file, "r");
+	        FileChannel channel = raf.getChannel();
+	        ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY,0, channel.size());
+	        PDFFile pdffile = new PDFFile(buf);
+	        PDFPage page = pdffile.getPage(0);
+			contentPanel.setLayout(null);
+	        
+			contentPanel.add(panelpdf);
+			panelpdf.showPage(page);
+	        repaint();
+	        panelpdf.repaint();
+	        panelpdf.setVisible(true);
 		}
 		// contentPanel.setLayout(null);
 		// fondo del panel
