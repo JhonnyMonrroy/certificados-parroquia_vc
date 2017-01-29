@@ -162,6 +162,14 @@
 			<version>1.0.5</version>
 		</dependency>
 
+		<!-- Para cargar datos en el formulario pdf -->
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.10</version>
+		</dependency>
+
 	</dependencies>
 	<description>Software diseñado para la administración e impreción de certificados de bautismo, primera comunión, confirmación y matrimonio.</description>
 </project>
