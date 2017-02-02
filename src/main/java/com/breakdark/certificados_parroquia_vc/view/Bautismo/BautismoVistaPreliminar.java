@@ -14,16 +14,13 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-import com.itextpdf.text.pdf.PdfWriter;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
 import com.sun.pdfview.PagePanel;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -57,28 +54,28 @@ public class BautismoVistaPreliminar extends JDialog {
 	 * @throws DocumentException
 	 */
 	public BautismoVistaPreliminar() throws IOException, DocumentException {
-		setResizable(false);
 		setAlwaysOnTop(true);
-		setBounds(100, 100, 400, 520);
+		setBounds(100, 100, 675, 683);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
 			// cargamos la plantilla a diligenciar
-			File archivoPDF = new File("recursos/bautismo_preliminar.pdf");
+			File archivoPDF_origen = new File("recursos/bautismo_preliminar.pdf");
+			File archivoPDF_destino = new File("recursos/temp.pdf");
+			
+			archivoPDF_destino.getParentFile().mkdir();
 			
 //			ByteArrayOutputStream arrayBytes = new ByteArrayOutputStream();
 //			PdfWriter f;
 			
-			File tempPdf=new File("temp.pdf");
-			tempPdf.createNewFile();
-			
 			PdfReader pdfReader = new PdfReader("recursos/bautismo_preliminar.pdf");
-			FileOutputStream fileStream=new FileOutputStream(tempPdf);
+			FileOutputStream fileStream=new FileOutputStream(archivoPDF_destino);
 			PdfStamper stamper = new PdfStamper(pdfReader, fileStream);
 			//PdfStamper stamper = new PdfStamper(pdfReader,Ounew OutputStream());
 			// se obtienen los campos del formulario
 			AcroFields pdfForm = stamper.getAcroFields();
+			pdfForm.removeXfa();
 			// se llenan los campos del formulario
 			// datos de la parroquia
 			pdfForm.setField("txtParroquia", "LLLLLLLLLLLLLLLLLLLL");
@@ -119,17 +116,19 @@ public class BautismoVistaPreliminar extends JDialog {
 			// pdfForm.setField("gestion",
 			// Integer.toString(hoy.get(Calendar.YEAR) % 10));
 			// cerramos el archivo
+			//stamper.setFormFlattening(true);
+			//stamper.setFullCompression();//.setFreeTextFlattening(true);
+			stamper.close();
 			pdfReader.close();
 			
 			//arrayBytes
 
 			PagePanel panelpdf = new PagePanel();
-			panelpdf.setBounds(21, 11, 349, 471);
-			//File file = new File("recursos/bautismo_preliminar.pdf");
+			panelpdf.setBounds(21, 11, 571, 610);
 			
 			@SuppressWarnings("resource")
 			//RandomAccessFile raf = new RandomAccessFile(archivoPDF, "r");
-			RandomAccessFile raf = new RandomAccessFile(tempPdf, "r");
+			RandomAccessFile raf = new RandomAccessFile(archivoPDF_destino, "rw");
 			FileChannel channel = raf.getChannel();
 			ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
 			PDFFile pdffile = new PDFFile(buf);
