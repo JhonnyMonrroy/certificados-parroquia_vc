@@ -170,6 +170,14 @@
 			<version>5.5.10</version>
 		</dependency>
 
+		<!-- Para imprimir Pdf -->
+		<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>2.0.4</version>
+		</dependency>
+
 	</dependencies>
 	<description>Software diseñado para la administración e impreción de certificados de bautismo, primera comunión, confirmación y matrimonio.</description>
 </project>

@@ -128,7 +128,7 @@ public class BautismoVistaPreliminar extends JDialog {
 			
 			@SuppressWarnings("resource")
 			//RandomAccessFile raf = new RandomAccessFile(archivoPDF, "r");
-			RandomAccessFile raf = new RandomAccessFile(archivoPDF_destino, "rw");
+			RandomAccessFile raf = new RandomAccessFile(archivoPDF_destino, "r");
 			FileChannel channel = raf.getChannel();
 			ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
 			PDFFile pdffile = new PDFFile(buf);
