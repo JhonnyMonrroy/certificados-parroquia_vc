@@ -1,10 +1,6 @@
-/**
- * 
- */
 package com.breakdark.certificados_parroquia_vc.view.Bautismo;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -12,33 +8,20 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
-import org.apache.pdfbox.pdmodel.interactive.form.PDXFAResource;
-import org.apache.pdfbox.printing.PDFPageable;
-
 import com.breakdark.certificados_parroquia_vc.model.Bautismo.Bautismo;
+import com.breakdark.utils.Fecha;
+import com.breakdark.utils.Imprimir;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-import com.sun.pdfview.PDFFile;
-import com.sun.pdfview.PDFPage;
-import com.sun.pdfview.PagePanel;
-
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.GridLayout;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
+import java.util.Calendar;
 import java.awt.event.ActionEvent;
 
 /**
@@ -289,7 +272,7 @@ public class BautismoMostrar extends JDialog {
 					}
 				});
 				btnVistaPreliminar.setActionCommand("OK");
-				buttonPane.add(btnVistaPreliminar);
+				// buttonPane.add(btnVistaPreliminar);
 				getRootPane().setDefaultButton(btnVistaPreliminar);
 			}
 			{
@@ -323,100 +306,35 @@ public class BautismoMostrar extends JDialog {
 							pdfForm.setField("txtPaterno", bautismo.getApellido_paterno());
 							pdfForm.setField("txtMaterno", bautismo.getApellido_materno());
 							pdfForm.setField("txtNombre", bautismo.getNombres());
-							// // pdfForm.setField("lugar_bautismo",
-							// // bautismo.getLugar_bautismo());
-							// // pdfForm.setField("fecha_bautismo",
-							// // bautismo.mostrarFechaBautismo());
-							// // pdfForm.setField("lugar_nacimiento",
-							// // bautismo.getLugar_nacimiento());
-							// // pdfForm.setField("fecha_nacimiento",
-							// // bautismo.mostrarFechaNacimiento());
-							// // pdfForm.setField("padre",
-							// bautismo.getPadre());
-							// // pdfForm.setField("madre",
-							// bautismo.getMadre());
-							// // pdfForm.setField("padrino",
-							// // bautismo.getPadrino());
-							// // pdfForm.setField("madrina",
-							// // bautismo.getMadrina());
-							// // pdfForm.setField("oficialia",
-							// // bautismo.getOficialia());
-							// // pdfForm.setField("libro_oficialia",
-							// // bautismo.getLibro_oficialia());
-							// // pdfForm.setField("partida_oficialia",
-							// // bautismo.getPartida_oficialia());
-							// // pdfForm.setField("parroco",
-							// // bautismo.getParroco());
-							// // pdfForm.setField("notas",
-							// bautismo.getNotas());
-							// // // datos del lugar y la fecha actual
-							// // pdfForm.setField("lugar",
-							// // configuracion.getLugar());
-							// // pdfForm.setField("lugar2",
-							// // configuracion.getLugar());
-							// // Calendar hoy = Calendar.getInstance();
-							// // pdfForm.setField("dia",
-							// // Integer.toString(hoy.get(Calendar.DATE)));
-							// // pdfForm.setField("mes",
-							// //
-							// FechaBreakDark.mostrarMes(hoy.get(Calendar.MONTH))
-							// // .toUpperCase());
-							// // pdfForm.setField("gestion",
-							// // Integer.toString(hoy.get(Calendar.YEAR) %
-							// 10));
-							// // cerramos el archivo
-							// // stamper.setFormFlattening(true);
-							// //
-							// stamper.setFullCompression();//.setFreeTextFlattening(true);
+							pdfForm.setField("txtLugarBautismo", bautismo.getLugar_bautismo());
+							pdfForm.setField("txtFechaBautismo", Fecha.obtenerFecha(bautismo.getFecha_bautismo()));
+							pdfForm.setField("txtLugarNacimiento", bautismo.getLugar_nacimiento());
+							pdfForm.setField("txtFechaNacimiento", Fecha.obtenerFecha(bautismo.getFecha_nacimiento()));
+							pdfForm.setField("txtPadre", bautismo.getPadre());
+							pdfForm.setField("txtMadre", bautismo.getMadre());
+							pdfForm.setField("txtPadrino", bautismo.getPadrino());
+							pdfForm.setField("txtMadrina", bautismo.getMadrina());
+							pdfForm.setField("txtOficialia", bautismo.getOficialia());
+							pdfForm.setField("txtLibroOficialia", bautismo.getOficialia_libro());
+							pdfForm.setField("txtPartidaOficialia", bautismo.getOficialia_partida().toString());
+							pdfForm.setField("txtParroco", bautismo.getParroco());
+							pdfForm.setField("txtNotas", bautismo.getNotas());
+							// datos del lugar y la fecha actual
+							// pdfForm.setField("lugar",
+							// configuracion.getLugar());
+							// pdfForm.setField("lugar2",
+							// configuracion.getLugar());
+							Calendar hoy = Calendar.getInstance();
+							pdfForm.setField("txtDiaFecha", Integer.toString(hoy.get(Calendar.DATE)));
+							pdfForm.setField("txtMesFecha",
+
+									Fecha.obtenerMes(hoy.getTime()));
+							pdfForm.setField("txtAnioFecha", Integer.toString(hoy.get(Calendar.YEAR) % 10));
+							stamper.setFullCompression();
 							stamper.close();
 							fileStream.close();
 							pdfReader.close();
-							//
-							//
-							// // imprimimos el archivo
-							// // //File fileToPrint = new
-							// File(ruta_pdf_destino);
-							// // //Desktop.getDesktop().print(fileToPrint);
-							// // PrinterJob job = PrinterJob.getPrinterJob();
-							// // //job.setPrintService(printer);
-							// // PDDocument doc = PDDocument.load(new
-							// // File(ruta_pdf_destino));
-							// //
-							// // doc.silentPrint(job);
-							//
-							// // doc.print();
-
-							// PDDocument pdf = PDDocument.load(new
-							// File(ruta_pdf_origen));
-
-							// PDAcroForm acroForm =
-							// pdf.getDocumentCatalog().getAcroForm();
-							//
-							//
-							//
-							// acroForm.getField("txtParroquia").setValue("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-
-							// pdf.save(pdf_destino);
-							// pdf.close();
-							// pdf = PDDocument.load(pdf_destino);
-							// PrinterJob job = PrinterJob.getPrinterJob();
-							// job.setPageable(new PDFPageable(pdf));
-							// if (job.printDialog()) {
-							// System.out.println("IMPRIMIENDO!!!!!!!!!!!");
-							// job.print();
-							// }
-							// pdf.close();
-
-							// File fileToPrint = new
-							// File("c:\\Documentos\\fichero.docx");
-							Desktop.getDesktop().print(pdf_destino);
-							// pdfReader.close();
-							// } catch (PrinterException ex) {
-							// JOptionPane.showMessageDialog(null, "Error al
-							// momento de acceder a la impresora",
-							// "ERROR DE IMPRESIÓN", JOptionPane.ERROR_MESSAGE);
-							// System.out.println("Error en la Impresora");
-							// ex.printStackTrace();
+							Imprimir.imprimirPDF(pdf_destino);
 						} catch (Exception ex) {
 							ex.printStackTrace();
 						}
@@ -535,9 +453,9 @@ public class BautismoMostrar extends JDialog {
 		lblMaterno.setText(bautismo.getApellido_materno());
 		lblNombres.setText(bautismo.getNombres());
 		lblLugarBautismo.setText(bautismo.getLugar_bautismo());
-		lblFechaBautismo.setText(bautismo.getFecha_bautismo().toString());
+		lblFechaBautismo.setText(Fecha.obtenerFecha(bautismo.getFecha_bautismo()));
 		lblLugarNacimiento.setText(bautismo.getLugar_nacimiento());
-		lblFechaNacimiento.setText(bautismo.getFecha_nacimiento().toString());
+		lblFechaNacimiento.setText(Fecha.obtenerFecha(bautismo.getFecha_nacimiento()));
 		lblPadre.setText(bautismo.getPadre());
 		lblMadre.setText(bautismo.getMadre());
 		lblPadrino.setText(bautismo.getPadrino());

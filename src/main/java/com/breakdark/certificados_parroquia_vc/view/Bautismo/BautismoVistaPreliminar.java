@@ -61,7 +61,7 @@ public class BautismoVistaPreliminar extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
 			// cargamos la plantilla a diligenciar
-			File archivoPDF_origen = new File("recursos/bautismo_preliminar.pdf");
+			//File archivoPDF_origen = new File("recursos/bautismo_preliminar.pdf");
 			File archivoPDF_destino = new File("recursos/temp.pdf");
 			
 			archivoPDF_destino.getParentFile().mkdir();
