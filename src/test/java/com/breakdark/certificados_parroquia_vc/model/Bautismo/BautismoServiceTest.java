@@ -3,7 +3,6 @@
  */
 package com.breakdark.certificados_parroquia_vc.model.Bautismo;
 
-import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -47,8 +46,9 @@ public class BautismoServiceTest extends TestCase {
 	@Before
 	public void setUp() throws Exception {
 		// eliminar la base de datos de prueba antes de iniciar los test
-		File test_db = new File("data//parroquia_test.sqlite");
-		Assert.assertTrue("No se pudo eliminar la base de datos de prueba", test_db.delete());
+		// File test_db = new File("data//parroquia_test.sqlite");
+		// Assert.assertTrue("No se pudo eliminar la base de datos de prueba",
+		// test_db.delete());
 		// cargamos el bautismoService
 		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring-config_test.xml");
@@ -120,10 +120,16 @@ public class BautismoServiceTest extends TestCase {
 	}
 
 	/**
+	 * Despues de cada prueba
+	 * 
 	 * @throws java.lang.Exception
 	 */
 	@After
 	public void tearDown() throws Exception {
+		// eliminamos el bautismo despues de utilizarlo
+		for (Bautismo bautismo : bautismoService.obtenerTodosLosBautismos()) {
+			bautismoService.eliminarBautismoDeId(bautismo.getId());
+		}
 	}
 
 	/**
@@ -296,5 +302,21 @@ public class BautismoServiceTest extends TestCase {
 				bautismo_result);
 
 		Assert.assertNull("Deberia obtenerse null con un id negativo", bautismoService.obtenerBautismoDeId(-1));
+	}
+
+	/**
+	 * Metodo test para
+	 * {@link com.breakdark.certificados_parroquia_vc.model.Bautismo.BautismoService#eliminarBautismoDeId()}.
+	 * Probamos que se puede eliminar un registro de bautismo
+	 */
+	@Test
+	public void testEliminarBautismoDeId() {
+		Bautismo bautismo_result = bautismoService.adicionarBautismo(bautismo1);
+		Assert.assertNotNull("El resultado devolvio null",
+				bautismoService.obtenerBautismoDeId(bautismo_result.getId()));
+		Assert.assertTrue("No se obtiene true al eliminar el objeto",
+				bautismoService.eliminarBautismoDeId(bautismo_result.getId()));
+		Assert.assertNull("Deberia obtenerse null al buscar el bautismo del mismo id eliminado",
+				bautismoService.obtenerBautismoDeId(bautismo_result.getId()));
 	}
 }

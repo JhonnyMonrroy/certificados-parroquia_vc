@@ -19,6 +19,8 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="mappingResources">
 			<list>
+				<value>com/breakdark/certificados_parroquia_vc/model/Configuracion/Configuracion.hbm.xml
+				</value>
 				<value>com/breakdark/certificados_parroquia_vc/model/Bautismo/Bautismo.hbm.xml
 				</value>
 			</list>
@@ -29,9 +31,19 @@
 				</prop>
 				<prop key="hibernate.current_session_context_class">thread</prop>
 				<prop key="hibernate.show_sql">false</prop>
-<!-- 				<prop key="hibernate.show_sql">true</prop> -->
+				<!-- <prop key="hibernate.show_sql">true</prop> -->
 			</props>
 		</property>
+	</bean>
+
+	<bean id="configuracionDAO"
+		class="com.breakdark.certificados_parroquia_vc.model.Configuracion.ConfiguracionDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="configuracionService"
+		class="com.breakdark.certificados_parroquia_vc.model.Configuracion.ConfiguracionService">
+		<property name="configuracionDAO" ref="configuracionDAO" />
 	</bean>
 
 	<bean id="bautismoDAO"
@@ -52,6 +64,7 @@
 	<!-- Asociamos las vistas -->
 	<bean id="framePrincipal"
 		class="com.breakdark.certificados_parroquia_vc.view.FramePrincipal">
+		<property name="configuracionService" ref="configuracionService" />
 		<property name="bautismoService" ref="bautismoService" />
 	</bean>
 

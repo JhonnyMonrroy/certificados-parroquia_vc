@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.breakdark.certificados_parroquia_vc.model.Bautismo;
 
 import java.util.Date;
@@ -82,11 +79,25 @@ public class BautismoService {
 	}
 
 	/**
-	 * @param id Identificador del bautismo
-	 * @return Un objeto <code>Bautismo</code>, <code>null</code> en el caso de que no exista
+	 * @param id
+	 *            Identificador del bautismo
+	 * @return Un objeto <code>Bautismo</code>, <code>null</code> en el caso de
+	 *         que no exista
 	 */
 	public Bautismo obtenerBautismoDeId(Integer id) {
 		return this.getBautismoDAO().findById(id);
 	}
 
+	/**
+	 * Elimina el bautismo de Id
+	 * 
+	 * @param id
+	 *            Identificador del bautismo
+	 * @return <code>true</code> si se elimino correctamente, <code>false</code>
+	 *         en caso de que existiese algun error
+	 */
+	public boolean eliminarBautismoDeId(Integer id) {
+		this.getBautismoDAO().deleteById(id);
+		return this.getBautismoDAO().findById(id) == null;
+	}
 }

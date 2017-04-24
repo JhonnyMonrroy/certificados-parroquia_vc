@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 22-04-2017 11:19:26 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+ <class
+  name="com.breakdark.certificados_parroquia_vc.model.Configuracion.Configuracion" table="CONFIGURACION">
+  <id name="id" type="java.lang.Integer">
+   <column name="id"/>
+   <generator class="increment"/>
+  </id>
+  <property generated="never" lazy="false" name="nombre_parroquia" type="java.lang.String">
+   <column name="nombre_parroquia" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="nombre_parroco" type="java.lang.String">
+   <column name="nombre_parroco" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="fecha" type="java.util.Date">
+   <column name="fecha"/>
+  </property>
+  <property generated="never" lazy="false" name="oficial" type="boolean">
+   <column name="oficial"/>
+  </property>
+ </class>
+</hibernate-mapping>

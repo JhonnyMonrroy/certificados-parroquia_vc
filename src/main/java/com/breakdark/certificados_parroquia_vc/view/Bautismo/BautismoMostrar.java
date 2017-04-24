@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.breakdark.certificados_parroquia_vc.model.Bautismo.Bautismo;
+import com.breakdark.certificados_parroquia_vc.model.Configuracion.Configuracion;
 import com.breakdark.utils.Fecha;
 import com.breakdark.utils.Imprimir;
 import com.itextpdf.text.pdf.AcroFields;
@@ -52,11 +53,14 @@ public class BautismoMostrar extends JDialog {
 	private JLabel lblLibroOficialia;
 
 	private Bautismo bautismo;
+	private Configuracion configuracion;
 
 	/**
 	 * Create the dialog.
 	 */
 	public BautismoMostrar() {
+		// cargamos la configuracion
+
 		setTitle("Datos del Bautismo");
 		setBounds(100, 100, 576, 522);
 		getContentPane().setLayout(new BorderLayout());
@@ -297,8 +301,8 @@ public class BautismoMostrar extends JDialog {
 							// pdfForm.removeXfa();
 							// se llenan los campos del formulario
 							// datos de la parroquia
-							pdfForm.setField("txtParroquia", "LLLLLLLLLLLLLLLLLLLL");
-							pdfForm.setField("txtPresbitero", "FFFFFFFFFFFFFFFFFFF");
+							pdfForm.setField("txtParroquia", configuracion.getNombre_parroquia());
+							pdfForm.setField("txtPresbitero", configuracion.getNombre_parroco());
 							// datos del bautismo
 							pdfForm.setField("txtLibro", bautismo.getLibro());
 							pdfForm.setField("txtPagina", bautismo.getPagina().toString());
@@ -465,5 +469,20 @@ public class BautismoMostrar extends JDialog {
 		lblPartidaOficialia.setText(bautismo.getOficialia_partida().toString());
 		lblParroco.setText(bautismo.getParroco());
 		lblNotas.setText(bautismo.getNotas());
+	}
+
+	/**
+	 * @return El configuracion
+	 */
+	public Configuracion getConfiguracion() {
+		return configuracion;
+	}
+
+	/**
+	 * @param configuracion
+	 *            El configuracion a asignar
+	 */
+	public void setConfiguracion(Configuracion configuracion) {
+		this.configuracion = configuracion;
 	}
 }

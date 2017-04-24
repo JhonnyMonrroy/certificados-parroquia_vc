@@ -13,6 +13,8 @@ import javax.swing.table.DefaultTableModel;
 
 import com.breakdark.certificados_parroquia_vc.model.Bautismo.Bautismo;
 import com.breakdark.certificados_parroquia_vc.model.Bautismo.BautismoService;
+import com.breakdark.certificados_parroquia_vc.model.Configuracion.Configuracion;
+import com.breakdark.certificados_parroquia_vc.model.Configuracion.ConfiguracionService;
 import com.breakdark.certificados_parroquia_vc.view.Bautismo.BautismoEditar;
 import com.breakdark.certificados_parroquia_vc.view.Bautismo.BautismoMostrar;
 
@@ -54,6 +56,7 @@ public class FramePrincipal extends JFrame {
 	private JTable tableBautismo;
 
 	// para acceder a los datos
+	private ConfiguracionService configuracionService;
 	private BautismoService bautismoService;
 
 	private JTextField txtPartidaBautismo;
@@ -326,11 +329,13 @@ public class FramePrincipal extends JFrame {
 					// tableBautismo.getSelectedRow());
 					// System.out.println(tableBautismo.getValueAt(tableBautismo.getSelectedRow(),
 					// 0));
+					Configuracion configuracion = configuracionService.obtenerConfiguracionOficial();
 					Bautismo bautismo = bautismoService.obtenerBautismoDeId(
 							Integer.parseInt(tableBautismo.getValueAt(tableBautismo.getSelectedRow(), 0).toString()));
 					// System.out.println(bautismo);
 					try {
 						BautismoMostrar dialog = new BautismoMostrar();
+						dialog.setConfiguracion(configuracion);
 						dialog.setBautismo(bautismo);
 						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 						dialog.setVisible(true);
@@ -480,5 +485,20 @@ public class FramePrincipal extends JFrame {
 	 */
 	public void setBautismoService(BautismoService bautismoService) {
 		this.bautismoService = bautismoService;
+	}
+
+	/**
+	 * @return El configuracionService
+	 */
+	public ConfiguracionService getConfiguracionService() {
+		return configuracionService;
+	}
+
+	/**
+	 * @param configuracionService
+	 *            El configuracionService a asignar
+	 */
+	public void setConfiguracionService(ConfiguracionService configuracionService) {
+		this.configuracionService = configuracionService;
 	}
 }
