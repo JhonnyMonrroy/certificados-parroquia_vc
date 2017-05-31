@@ -314,9 +314,25 @@ public class BautismoEditar extends JDialog {
 	 */
 	public void setBautismo(Bautismo bautismo) {
 		this.bautismo = bautismo;
-		this.textFieldApellidoPaterno.setText(bautismo.getApellido_paterno());
+		this.dateChooserFechaBautismo.setDate(bautismo.getFecha_bautismo());
+		this.dateChooserFechaNacimiento.setDate(bautismo.getFecha_nacimiento());
+		this.textAreaNota.setText(bautismo.getNotas());
 		this.textFieldApellidoMaterno.setText(bautismo.getApellido_materno());
+		this.textFieldApellidoPaterno.setText(bautismo.getApellido_paterno());
+		this.textFieldLibro.setText(bautismo.getLibro());
+		this.textFieldLugarBautismo.setText(bautismo.getLugar_bautismo());
+		this.textFieldLugarNacimiento.setText(bautismo.getLugar_nacimiento());
+		this.textFieldMadre.setText(bautismo.getMadre());
+		this.textFieldMadrina.setText(bautismo.getMadrina());
 		this.textFieldNombres.setText(bautismo.getNombres());
+		this.textFieldOficialia.setText(bautismo.getOficialia());
+		this.textFieldOficialiaLibro.setText(bautismo.getOficialia_libro());
+		this.textFieldOficialiaPartida.setText(bautismo.getOficialia_partida().toString());
+		this.textFieldPadre.setText(bautismo.getPadre());
+		this.textFieldPadrino.setText(bautismo.getPadrino());
+		this.textFieldPagina.setText(bautismo.getPagina().toString());
+		this.textFieldParroco.setText(bautismo.getParroco());
+		this.textFieldPartida.setText(bautismo.getPartida().toString());
 	}
 
 }

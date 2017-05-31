@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.awt.event.ActionEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 /**
  * @author BreakDark
@@ -355,6 +357,23 @@ public class BautismoMostrar extends JDialog {
 				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
+			}
+		}
+		{
+			JMenuBar menuBar = new JMenuBar();
+			setJMenuBar(menuBar);
+			{
+				JMenuItem mItemEditar = new JMenuItem("Editar");
+				mItemEditar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						BautismoEditar dialog = new BautismoEditar();
+						dialog.setTitle("Editar Bautismo");
+						dialog.setBautismo(bautismo);
+						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						dialog.setVisible(true);
+					}
+				});
+				menuBar.add(mItemEditar);
 			}
 		}
 	}
