@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.breakdark.certificados_parroquia_vc.view.Bautismo;
 
@@ -16,8 +16,12 @@ import com.breakdark.certificados_parroquia_vc.model.Bautismo.Bautismo;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JSpinner;
 
 /**
  * @author BreakDark
@@ -27,9 +31,7 @@ public class BautismoEditar extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textFieldPartida;
 	private JTextField textFieldLibro;
-	private JTextField textFieldPagina;
 	private JTextField textFieldApellidoPaterno;
 	private JTextField textFieldApellidoMaterno;
 	private JTextField textFieldNombres;
@@ -41,7 +43,6 @@ public class BautismoEditar extends JDialog {
 	private JTextField textFieldMadrina;
 	private JTextField textFieldOficialia;
 	private JTextField textFieldOficialiaLibro;
-	private JTextField textFieldOficialiaPartida;
 	private JTextField textFieldParroco;
 	private JDateChooser dateChooserFechaBautismo;
 	private JDateChooser dateChooserFechaNacimiento;
@@ -67,24 +68,31 @@ public class BautismoEditar extends JDialog {
 	private JLabel lblNotas;
 
 	private Bautismo bautismo;
+	private JSpinner spinnerPagina;
+	private JSpinner spinnerPartida;
+	private JSpinner spinnerOficialiaPartida;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			BautismoEditar dialog = new BautismoEditar();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private boolean edicion;
+
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		try {
+//			BautismoEditar dialog = new BautismoEditar();
+//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//			dialog.setVisible(true);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * Create the dialog.
+	 * @param edicion Un valor booleando para indicar si esta en el modo edicion
 	 */
-	public BautismoEditar() {
+	public BautismoEditar(boolean edicion) {
+		this.edicion=edicion;
 		setModal(true);
 		setAlwaysOnTop(true);
 		setTitle("Editar Bautismo");
@@ -100,6 +108,8 @@ public class BautismoEditar extends JDialog {
 		}
 		{
 			textFieldLibro = new JTextField();
+			if(this.edicion)
+				textFieldLibro.setEditable(false);
 			lblLibro.setLabelFor(textFieldLibro);
 			contentPanel.add(textFieldLibro);
 			textFieldLibro.setColumns(10);
@@ -110,9 +120,10 @@ public class BautismoEditar extends JDialog {
 			contentPanel.add(lblPgina);
 		}
 		{
-			textFieldPagina = new JTextField();
-			contentPanel.add(textFieldPagina);
-			textFieldPagina.setColumns(10);
+			spinnerPagina = new JSpinner();
+			if(this.edicion)
+				spinnerPagina.setEnabled(false);
+			contentPanel.add(spinnerPagina);
 		}
 		{
 			lblPartida = new JLabel("Partida:");
@@ -120,9 +131,10 @@ public class BautismoEditar extends JDialog {
 			contentPanel.add(lblPartida);
 		}
 		{
-			textFieldPartida = new JTextField();
-			contentPanel.add(textFieldPartida);
-			textFieldPartida.setColumns(10);
+			spinnerPartida = new JSpinner();
+			if(this.edicion)
+				spinnerPartida.setEnabled(false);
+			contentPanel.add(spinnerPartida);
 		}
 		{
 			lblApellidoPaterno = new JLabel("Apellido Paterno:");
@@ -239,6 +251,8 @@ public class BautismoEditar extends JDialog {
 		}
 		{
 			textFieldOficialia = new JTextField();
+			if(this.edicion)
+				textFieldOficialia.setEditable(false);
 			contentPanel.add(textFieldOficialia);
 			textFieldOficialia.setColumns(10);
 		}
@@ -249,6 +263,8 @@ public class BautismoEditar extends JDialog {
 		}
 		{
 			textFieldOficialiaLibro = new JTextField();
+			if(this.edicion)
+				textFieldOficialiaLibro.setEditable(false);
 			contentPanel.add(textFieldOficialiaLibro);
 			textFieldOficialiaLibro.setColumns(10);
 		}
@@ -258,9 +274,10 @@ public class BautismoEditar extends JDialog {
 			contentPanel.add(lblPartidaDeLa);
 		}
 		{
-			textFieldOficialiaPartida = new JTextField();
-			contentPanel.add(textFieldOficialiaPartida);
-			textFieldOficialiaPartida.setColumns(10);
+			spinnerOficialiaPartida = new JSpinner();
+			if(this.edicion)
+				spinnerOficialiaPartida.setEnabled(false);
+			contentPanel.add(spinnerOficialiaPartida);
 		}
 		{
 			lblNombreDelParroco = new JLabel("Nombre del Parroco:");
@@ -289,12 +306,28 @@ public class BautismoEditar extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton guardarButton = new JButton("Guardar");
+				guardarButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						// guardamos los datos
+						int dialogResult = JOptionPane.showConfirmDialog(null, "Esta seguro de guardar esta información?",null, JOptionPane.YES_NO_OPTION);
+						if(dialogResult == JOptionPane.YES_OPTION){
+							actualizarBautismo();
+							// TODO Generar servicio de actualizarBautismo
+							System.out.println(bautismo);
+						}
+					}
+				});
 				guardarButton.setActionCommand("OK");
 				buttonPane.add(guardarButton);
 				getRootPane().setDefaultButton(guardarButton);
 			}
 			{
 				JButton cancelarButton = new JButton("Cancelar");
+				cancelarButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelarButton.setActionCommand("Cancel");
 				buttonPane.add(cancelarButton);
 			}
@@ -327,12 +360,37 @@ public class BautismoEditar extends JDialog {
 		this.textFieldNombres.setText(bautismo.getNombres());
 		this.textFieldOficialia.setText(bautismo.getOficialia());
 		this.textFieldOficialiaLibro.setText(bautismo.getOficialia_libro());
-		this.textFieldOficialiaPartida.setText(bautismo.getOficialia_partida().toString());
+		this.spinnerOficialiaPartida.setValue(bautismo.getOficialia_partida());
 		this.textFieldPadre.setText(bautismo.getPadre());
 		this.textFieldPadrino.setText(bautismo.getPadrino());
-		this.textFieldPagina.setText(bautismo.getPagina().toString());
+		this.spinnerPagina.setValue(bautismo.getPagina());
 		this.textFieldParroco.setText(bautismo.getParroco());
-		this.textFieldPartida.setText(bautismo.getPartida().toString());
+		this.spinnerPartida.setValue(bautismo.getPartida());
+	}
+
+	/**
+	 * Metodo que actualiza al bautisno con los datos actualmente cargados
+	 */
+	private void actualizarBautismo() {
+		bautismo.setApellido_materno(this.textFieldApellidoMaterno.getText());
+		bautismo.setApellido_paterno(this.textFieldApellidoPaterno.getText());
+		bautismo.setFecha_bautismo(this.dateChooserFechaBautismo.getDate());
+		bautismo.setFecha_nacimiento(this.dateChooserFechaNacimiento.getDate());
+		bautismo.setLibro(this.textFieldLibro.getText());
+		bautismo.setLugar_bautismo(this.textFieldLugarBautismo.getText());
+		bautismo.setLugar_nacimiento(this.textFieldLugarNacimiento.getText());
+		bautismo.setMadre(this.textFieldMadre.getText());
+		bautismo.setMadrina(this.textFieldMadrina.getText());
+		bautismo.setNombres(this.textFieldNombres.getText());
+		bautismo.setNotas(this.textAreaNota.getText());
+		bautismo.setOficialia(this.textFieldOficialia.getText());
+		bautismo.setOficialia_libro(this.textFieldOficialiaLibro.getText());
+		bautismo.setOficialia_partida((Integer)this.spinnerOficialiaPartida.getValue());
+		bautismo.setPadre(this.textFieldPadre.getText());
+		bautismo.setPadrino(this.textFieldPadrino.getText());
+		bautismo.setPagina((Integer)this.spinnerPagina.getValue());
+		bautismo.setParroco(this.textFieldParroco.getText());
+		bautismo.setPartida((Integer)this.spinnerPartida.getValue());
 	}
 
 }

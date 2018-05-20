@@ -366,7 +366,7 @@ public class BautismoMostrar extends JDialog {
 				JMenuItem mItemEditar = new JMenuItem("Editar");
 				mItemEditar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						BautismoEditar dialog = new BautismoEditar();
+						BautismoEditar dialog = new BautismoEditar(true);
 						dialog.setTitle("Editar Bautismo");
 						dialog.setBautismo(bautismo);
 						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -463,7 +463,7 @@ public class BautismoMostrar extends JDialog {
 
 	/**
 	 * Asigna los valores del bautismo
-	 * 
+	 *
 	 * @param bautismo
 	 *            El bautismo a asignar
 	 */
