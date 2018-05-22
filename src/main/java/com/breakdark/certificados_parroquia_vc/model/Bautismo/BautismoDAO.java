@@ -29,11 +29,11 @@ class BautismoDAO {
 
 	/**
 	 * Crea un registro de un <code>Bautismo</code> en la base de datos
-	 * 
+	 *
 	 * @param bautismo
 	 *            Objeto bautismo a registrar
-	 * @return El id del objeto insertado en la base de datos, <code>null</code>
-	 *         en el caso de que exista algun error.
+	 * @return El id del objeto insertado en la base de datos, <code>null</code> en
+	 *         el caso de que exista algun error.
 	 */
 	public Integer insert(Bautismo bautismo) {
 		try {
@@ -57,8 +57,8 @@ class BautismoDAO {
 	}
 
 	/**
-	 * Obtiene un listado de todos los objetos <code>Bautismo</code> registrados
-	 * en la base de datos.
+	 * Obtiene un listado de todos los objetos <code>Bautismo</code> registrados en
+	 * la base de datos.
 	 *
 	 * @return En listado de objetos <code>Bautismo</code>
 	 */
@@ -74,7 +74,7 @@ class BautismoDAO {
 
 	/**
 	 * Obtiene un bautismo a partir de su id
-	 * 
+	 *
 	 * @param id_bautismo
 	 * @return Un objeto <code>Bautismo</code>, <code>null</code> si es que no
 	 *         existe
@@ -90,7 +90,7 @@ class BautismoDAO {
 
 	/**
 	 * Elimina un registro Bautismo de la base de datos
-	 * 
+	 *
 	 * @param id_bautismo
 	 */
 	public void deleteById(Integer id_bautismo) {
@@ -104,7 +104,7 @@ class BautismoDAO {
 
 	/**
 	 * Busca bautismos segun los parametros enviados
-	 * 
+	 *
 	 * @param libro
 	 *            Número del libro de registro del bautismo
 	 * @param partida
@@ -153,5 +153,32 @@ class BautismoDAO {
 		List<Bautismo> bautismos = (List<Bautismo>) criteria.list();
 		session.getTransaction().commit();
 		return bautismos;
+	}
+
+	/**
+	 * Actualiza el bautismo segun el id enviado
+	 *
+	 * @param bautismo
+	 *            Bautismo a actualizar
+	 * @return Un objeto Bautismo, <code>null</code> en el caso de que ocurriese
+	 *         algun error
+	 */
+	public Bautismo save(Bautismo bautismo) {
+		try {
+			// parseamos a mayusculas
+			bautismo.setApellido_paterno(bautismo.getApellido_paterno().toUpperCase());
+			bautismo.setApellido_materno(bautismo.getApellido_materno().toUpperCase());
+			bautismo.setNombres(bautismo.getNombres().toUpperCase());
+
+			Session session = getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+			session.update(bautismo);
+			// Bautismo bautismo_result = (Bautismo) session.save(bautismo);
+			session.getTransaction().commit();
+			return bautismo;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
