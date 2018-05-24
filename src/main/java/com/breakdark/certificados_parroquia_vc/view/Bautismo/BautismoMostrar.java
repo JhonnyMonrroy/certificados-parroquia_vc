@@ -370,6 +370,7 @@ public class BautismoMostrar extends JDialog {
 						dialog.setTitle("Editar Bautismo");
 						dialog.setBautismo(bautismo);
 						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						dispose();	// cerramos la ventana actual
 						dialog.setVisible(true);
 					}
 				});

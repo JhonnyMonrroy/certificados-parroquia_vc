@@ -10,10 +10,16 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import javax.swing.JTextField;
 
 import com.breakdark.certificados_parroquia_vc.model.Bautismo.Bautismo;
 import com.breakdark.certificados_parroquia_vc.model.Bautismo.BautismoService;
+import com.breakdark.certificados_parroquia_vc.model.Configuracion.Configuracion;
+import com.breakdark.certificados_parroquia_vc.model.Configuracion.ConfiguracionService;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
@@ -75,6 +81,7 @@ public class BautismoEditar extends JDialog {
 
     private boolean edicion;
     private BautismoService bautismoService;
+    private ConfiguracionService configuracionService;
 
     // /**
     // * Launch the application.
@@ -94,7 +101,10 @@ public class BautismoEditar extends JDialog {
      * @param edicion Un valor booleando para indicar si esta en el modo edicion
      */
     public BautismoEditar(boolean edicion) {
-        this.bautismoService = new BautismoService();
+    	@SuppressWarnings("resource")
+		ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+		bautismoService = (BautismoService) context.getBean("bautismoService");
+		configuracionService = (ConfiguracionService) context.getBean("configuracionService");
         this.edicion=edicion;
         setModal(true);
         setAlwaysOnTop(true);
@@ -312,19 +322,30 @@ public class BautismoEditar extends JDialog {
                 guardarButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         // guardamos los datos
+                    	setVisible(false);
                         int dialogResult = JOptionPane.showConfirmDialog(null, "Esta seguro de guardar esta información?",null, JOptionPane.YES_NO_OPTION);
                         if(dialogResult == JOptionPane.YES_OPTION){
                             actualizarBautismo();
-                            // TODO Generar servicio de actualizarBautismo
                             if(bautismoService.actualizarBautismo(bautismo)!=null) {
+                            	int id_bautismo = bautismo.getId();
+                            	dispose();
                             	JOptionPane.showMessageDialog(null, "Se actualizo el bautismo correctamente:\n",
                                         "Bautismo actualizado", JOptionPane.INFORMATION_MESSAGE);
-                            	dispose();
+								// mostramos el bautismo
+                            	Configuracion configuracion = configuracionService.obtenerConfiguracionOficial();
+            					Bautismo bautismo = bautismoService.obtenerBautismoDeId(id_bautismo);
+                            	BautismoMostrar dialog = new BautismoMostrar();
+        						dialog.setConfiguracion(configuracion);
+        						dialog.setBautismo(bautismo);
+        						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        						dialog.setVisible(true);
                             }else {
                                 JOptionPane.showMessageDialog(null, "Ocurrio un error al intentar guardar el bautismo:\n",
                                        "Error al guardar", JOptionPane.ERROR_MESSAGE);
+                                setVisible(true);
                             }
-                            System.out.println(bautismo);
+                        }else {
+                        	setVisible(true);
                         }
                     }
                 });
@@ -337,6 +358,15 @@ public class BautismoEditar extends JDialog {
                 cancelarButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         dispose();
+                        int id_bautismo = bautismo.getId();
+                    	dispose();
+                    	Configuracion configuracion = configuracionService.obtenerConfiguracionOficial();
+    					Bautismo bautismo = bautismoService.obtenerBautismoDeId(id_bautismo);
+                    	BautismoMostrar dialog = new BautismoMostrar();
+						dialog.setConfiguracion(configuracion);
+						dialog.setBautismo(bautismo);
+						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						dialog.setVisible(true);
                     }
                 });
                 cancelarButton.setActionCommand("Cancel");
@@ -382,26 +412,26 @@ public class BautismoEditar extends JDialog {
     /**
      * Metodo que actualiza al bautisno con los datos actualmente cargados
      */
-    private void actualizarBautismo() {
-        bautismo.setApellido_materno(this.textFieldApellidoMaterno.getText());
-        bautismo.setApellido_paterno(this.textFieldApellidoPaterno.getText());
-        bautismo.setFecha_bautismo(this.dateChooserFechaBautismo.getDate());
-        bautismo.setFecha_nacimiento(this.dateChooserFechaNacimiento.getDate());
-        bautismo.setLibro(this.textFieldLibro.getText());
-        bautismo.setLugar_bautismo(this.textFieldLugarBautismo.getText());
-        bautismo.setLugar_nacimiento(this.textFieldLugarNacimiento.getText());
-        bautismo.setMadre(this.textFieldMadre.getText());
-        bautismo.setMadrina(this.textFieldMadrina.getText());
-        bautismo.setNombres(this.textFieldNombres.getText());
-        bautismo.setNotas(this.textAreaNota.getText());
-        bautismo.setOficialia(this.textFieldOficialia.getText());
-        bautismo.setOficialia_libro(this.textFieldOficialiaLibro.getText());
-        bautismo.setOficialia_partida((Integer) this.spinnerOficialiaPartida.getValue());
-        bautismo.setPadre(this.textFieldPadre.getText());
-        bautismo.setPadrino(this.textFieldPadrino.getText());
-        bautismo.setPagina((Integer) this.spinnerPagina.getValue());
-        bautismo.setParroco(this.textFieldParroco.getText());
-        bautismo.setPartida((Integer) this.spinnerPartida.getValue());
-    }
+	private void actualizarBautismo() {
+		bautismo.setApellido_materno(this.textFieldApellidoMaterno.getText());
+		bautismo.setApellido_paterno(this.textFieldApellidoPaterno.getText());
+		bautismo.setFecha_bautismo(new java.sql.Date(this.dateChooserFechaBautismo.getDate().getTime()));
+		bautismo.setFecha_nacimiento(new java.sql.Date(this.dateChooserFechaNacimiento.getDate().getTime()));
+		bautismo.setLibro(this.textFieldLibro.getText());
+		bautismo.setLugar_bautismo(this.textFieldLugarBautismo.getText());
+		bautismo.setLugar_nacimiento(this.textFieldLugarNacimiento.getText());
+		bautismo.setMadre(this.textFieldMadre.getText());
+		bautismo.setMadrina(this.textFieldMadrina.getText());
+		bautismo.setNombres(this.textFieldNombres.getText());
+		bautismo.setNotas(this.textAreaNota.getText());
+		bautismo.setOficialia(this.textFieldOficialia.getText());
+		bautismo.setOficialia_libro(this.textFieldOficialiaLibro.getText());
+		bautismo.setOficialia_partida((Integer) this.spinnerOficialiaPartida.getValue());
+		bautismo.setPadre(this.textFieldPadre.getText());
+		bautismo.setPadrino(this.textFieldPadrino.getText());
+		bautismo.setPagina((Integer) this.spinnerPagina.getValue());
+		bautismo.setParroco(this.textFieldParroco.getText());
+		bautismo.setPartida((Integer) this.spinnerPartida.getValue());
+	}
 
 }

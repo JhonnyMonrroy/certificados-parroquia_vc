@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * Clase Bautismo
- * 
+ *
  * @author BreakDark
  * @version 1.0
  */
@@ -355,7 +355,7 @@ public class Bautismo {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
@@ -370,7 +370,7 @@ public class Bautismo {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -403,7 +403,7 @@ public class Bautismo {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

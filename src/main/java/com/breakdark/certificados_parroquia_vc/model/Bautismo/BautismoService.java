@@ -110,6 +110,6 @@ public class BautismoService {
 	 *         algun error
 	 */
 	public Bautismo actualizarBautismo(Bautismo bautismo) {
-		return this.getBautismoDAO().save(bautismo); // TODO Reparar servicio actualizar Bautismo
+		return this.getBautismoDAO().save(bautismo);
 	}
 }

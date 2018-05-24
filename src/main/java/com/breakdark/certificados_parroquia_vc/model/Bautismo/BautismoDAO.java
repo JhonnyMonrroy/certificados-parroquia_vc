@@ -175,7 +175,7 @@ class BautismoDAO {
 			session.update(bautismo);
 			// Bautismo bautismo_result = (Bautismo) session.save(bautismo);
 			session.getTransaction().commit();
-			return bautismo;
+			return this.findById(bautismo.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
