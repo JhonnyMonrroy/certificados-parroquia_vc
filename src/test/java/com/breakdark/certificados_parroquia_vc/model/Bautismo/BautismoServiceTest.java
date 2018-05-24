@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.breakdark.certificados_parroquia_vc.model.Bautismo;
 
@@ -18,7 +18,7 @@ import junit.framework.TestCase;
 
 /**
  * Test para la clase BautismoService
- * 
+ *
  * @author BreakDark
  * @version 1.0
  */
@@ -40,7 +40,7 @@ public class BautismoServiceTest extends TestCase {
 
 	/**
 	 * Cargamos los datos basicos para la prueba
-	 * 
+	 *
 	 * @throws java.lang.Exception
 	 */
 	@Before
@@ -121,7 +121,7 @@ public class BautismoServiceTest extends TestCase {
 
 	/**
 	 * Despues de cada prueba
-	 * 
+	 *
 	 * @throws java.lang.Exception
 	 */
 	@After
@@ -153,6 +153,33 @@ public class BautismoServiceTest extends TestCase {
 		bautismo1.setId(bautismo_test.getId());
 		Assert.assertEquals("El bautismo de la base de datos es distinto al bautismo original.", bautismo1,
 				bautismo_test);
+	}
+
+	/**
+	 * Metodo test para
+	 * {@link com.breakdark.certificados_parroquia_vc.model.Bautismo.BautismoService#actualizarBautismo(com.breakdark.certificados_parroquia_vc.model.Bautismo.Bautismo)}.
+	 * Probamos que si se puede actualizar el objeto bautismo en la base de datos
+	 */
+	@Test
+	public void testActualizarBautismo() {
+		// System.out.println(bautismo);
+		Bautismo bautismo_test = bautismoService.adicionarBautismo(bautismo1);
+		Assert.assertNotNull("Al adicionar el bautismo retorna Null", bautismo_test);
+		bautismo_test.setApellido_paterno(bautismo_test.getApellido_paterno() + "123456");
+		bautismo_test.setApellido_materno(bautismo_test.getApellido_materno() + "123456");
+		bautismo_test.setNombres(bautismo_test.getNombres() + "123456");
+		bautismo_test.setLugar_bautismo(bautismo_test.getLugar_bautismo() + "123456");
+		bautismo_test.setFecha_bautismo(java.sql.Date.valueOf("1930-11-21")); // 21/11/1930
+		bautismo_test.setLugar_nacimiento(bautismo_test.getLugar_nacimiento() + "123456");
+		bautismo_test.setFecha_nacimiento(new Date()); // fecha actual
+		bautismo_test.setPadre(bautismo_test.getPadre() + "123456");
+		bautismo_test.setMadre(bautismo_test.getMadre() + "123456");
+		bautismo_test.setPadrino(bautismo_test.getPadrino() + "123456");
+		bautismo_test.setMadrina(bautismo_test.getMadrina() + "123456");
+		bautismo_test.setParroco(bautismo_test.getParroco() + "123456");
+		bautismo_test.setNotas(bautismo_test.getNotas() + "123456");
+		Bautismo bautismo_actualizado = bautismoService.actualizarBautismo(bautismo_test);
+		Assert.assertEquals("El bautismo actualizado es distinto al enviado", bautismo_actualizado, bautismo_test);
 	}
 
 	/**

@@ -93,13 +93,13 @@ public class FramePrincipal extends JFrame {
 		btnNuevoBautismo.addActionListener(new ActionListener() {
 			/**
 			 * Al hacer click al boton Nuevo bautismo
-			 * 
+			 *
 			 * @param e
 			 *            El manejador del evento
 			 */
 			public void actionPerformed(ActionEvent e) {
 				try {
-					BautismoEditar dialog = new BautismoEditar();
+					BautismoEditar dialog = new BautismoEditar(true);
 					dialog.setTitle("Nuevo Bautismo");
 					// Bautismo bautismo = new Bautismo();
 					// bautismo.setNombres("JUAN JOSE");

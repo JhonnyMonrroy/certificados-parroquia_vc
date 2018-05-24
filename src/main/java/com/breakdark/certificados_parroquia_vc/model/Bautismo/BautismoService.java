@@ -12,7 +12,7 @@ public class BautismoService {
 
 	/**
 	 * Adiciona un Bautismo en la Base de Datos
-	 * 
+	 *
 	 * @param bautismo
 	 *            El objeto <code>Bautismo</code> a adicionar en la base de
 	 *            datos.
@@ -30,7 +30,7 @@ public class BautismoService {
 
 	/**
 	 * Obtiene la lista de todos los bautismos registrados
-	 * 
+	 *
 	 * @return Una lista de objetos <code>Bautismo</code>, <code>null</code> si
 	 *         existe algun error
 	 */
@@ -40,7 +40,7 @@ public class BautismoService {
 
 	/**
 	 * Busca bautismos segun los parametros enviados
-	 * 
+	 *
 	 * @param libro
 	 *            Número del libro de registro del bautismo
 	 * @param partida
@@ -90,7 +90,7 @@ public class BautismoService {
 
 	/**
 	 * Elimina el bautismo de Id
-	 * 
+	 *
 	 * @param id
 	 *            Identificador del bautismo
 	 * @return <code>true</code> si se elimino correctamente, <code>false</code>
@@ -99,5 +99,17 @@ public class BautismoService {
 	public boolean eliminarBautismoDeId(Integer id) {
 		this.getBautismoDAO().deleteById(id);
 		return this.getBautismoDAO().findById(id) == null;
+	}
+
+	/**
+	 * Actualiza el bautismo segun el id enviado
+	 *
+	 * @param bautismo
+	 *            Bautismo a actualizar
+	 * @return Un objeto Bautismo, <code>null</code> en el caso de que ocurriese
+	 *         algun error
+	 */
+	public Bautismo actualizarBautismo(Bautismo bautismo) {
+		return this.getBautismoDAO().save(bautismo);
 	}
 }

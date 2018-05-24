@@ -2,5 +2,5 @@
 /.project
 /.settings/
 /.springBeans
-/data/*
-/recursos/temp.pdf
+/data
+recursos/temp.pdf
